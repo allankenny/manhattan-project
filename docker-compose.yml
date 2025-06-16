@@ -1,0 +1,26 @@
+services:
+  api:
+    build: ./api/.
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+      - /app/.venv
+    environment:
+      - MONGO_DB_URL=mongodb://mongo:27017/manhattan
+      - GOOGLE_AI_STUDIO_API_KEY=AIzaSyD3_TDvvrmasyzaSD1-pQwkEXgLWlK7OoE
+      - PROMO_API_URL=http://host.docker.internal:8001
+      - PROMO_ADM_USER=sadm
+      - PROMO_ADM_PASS=yQURHNbpC0PME0aHovr
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
