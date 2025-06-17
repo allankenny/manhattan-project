@@ -68,6 +68,7 @@ class PromoProductType(TypedDict):
     id: str
     name: str
     ean: str
+    image_url: str | None
     segment: PromoSegmentType
     fronts: int
     fronts_ir: int

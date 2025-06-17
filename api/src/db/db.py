@@ -15,6 +15,7 @@ async def init_db():
         database=mongo_db_instance,
         document_models=[
             models.Execution,
+            models.ExecutionEvidence,
             models.ExecutionProduct,
             models.ExecutionBrand,
             models.Product,

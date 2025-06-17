@@ -51,6 +51,7 @@ class ProductSchema(BaseModel):
     id: str = Field(..., alias="_id")
     name: str
     ean: str
+    image_url: str | None
     segment: SegmentSchema
 
     class Config:
@@ -73,6 +74,13 @@ class ExecutionBrandSchema(BaseModel):
     class Config:
         populate_by_name = True
 
+class EvidenceSchema(BaseModel):
+    id: str = Field(..., alias="_id")
+    url: str
+
+    class Config:
+        populate_by_name = True
+
 
 class DetailedExecutionSchema(ExecutionSchema):
     products_promoter: List[ExecutionProductSchema]
@@ -81,6 +89,7 @@ class DetailedExecutionSchema(ExecutionSchema):
     brands_promoter: List[ExecutionBrandSchema]
     brands_ir: List[ExecutionBrandSchema]
     brands_manhattan: List[ExecutionBrandSchema]
+    evidences: List[EvidenceSchema]
 
     class Config:
         populate_by_name = True
@@ -126,7 +135,7 @@ async def process_execution_by_name(name: str, promo: Annotated[Promo, Depends(g
         category = Category(id=promo_product["segment"]["brand"]["category"]["id"], name=promo_product["segment"]["brand"]["category"]["name"])
         brand = Brand(id=promo_product["segment"]["brand"]["id"], name=promo_product["segment"]["brand"]["name"], category=category)
         segment = Segment(id=promo_product["segment"]["id"], name=promo_product["segment"]["name"], brand=brand)
-        product = Product(id=promo_product["id"], name=promo_product["name"], ean=promo_product["ean"], segment=segment)
+        product = Product(id=promo_product["id"], name=promo_product["name"], ean=promo_product["ean"], image_url=promo_product['image_url'], segment=segment)
         products_promoter.append(ExecutionProduct(faces=promo_product["fronts"], price=promo_product["price"], product=product))
         products_ir.append(ExecutionProduct(faces=promo_product["fronts_ir"], price=promo_product["price_ir"], product=product))
 
@@ -141,6 +150,8 @@ async def process_execution_by_name(name: str, promo: Annotated[Promo, Depends(g
         brands_ir=brands_ir,
         brands_audited=[],
         brands_manhattan=[],
+        evidences=execution['evidences'],
+
     )
     await _execution.save(link_rule=WriteRules.WRITE)
 

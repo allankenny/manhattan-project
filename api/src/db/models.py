@@ -38,6 +38,7 @@ class Product(Document):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     name: str
     ean: str
+    image_url: str | None
     segment: Link[Segment]
 
     class Settings:
@@ -63,6 +64,15 @@ class ExecutionBrand(Document):
         name = "execution_brands"
 
 
+class ExecutionEvidence(Document):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+    url: str
+
+    class Settings:
+        name = "execution_evidences"
+        indexes = [pymongo.IndexModel([("url", pymongo.TEXT)])]
+
+
 class Execution(Document):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     name: str
@@ -74,6 +84,7 @@ class Execution(Document):
     products_ir: List[Link[ExecutionProduct]]
     products_manhattan: List[Link[ExecutionProduct]]
     products_audited: List[Link[ExecutionProduct]]
+    evidences: List[Link[ExecutionEvidence]]
 
     class Settings:
         name = "executions"
