@@ -1,6 +1,10 @@
 import aiohttp
-from typing import TypedDict, Union
+
+from typing import Union
+from beanie import WriteRules
 from settings import settings
+
+from src.db import models
 
 
 class Promo:
@@ -36,56 +40,70 @@ class Promo:
             return True
         return False
 
-    async def get_execution_by_name(self, name: str) -> Union["PromoExecutionType", None]:
+    async def get_execution_by_name_and_save_to_db(self, name: str) -> Union[models.Execution, None]:
         status, data = await self._request("get", f"/execution/by_name/{name}")
-        if status == 200:
-            return data
+        if status != 200:
+            return None
 
+        _brands = list()
+        _products = list()
 
-class PromoEvidenceType(TypedDict):
-    id: str
-    url: str
+        for promo_brand in data["brands"]:
+            category = models.Category(
+                id=promo_brand["category"]["id"],
+                name=promo_brand["category"]["name"],
+            )
+            brand = models.Brand(
+                id=promo_brand["id"],
+                name=promo_brand["name"],
+                category=category,
+            )
+            _brands.append(
+                models.ExecutionBrand(
+                    brand=brand,
+                    faces_promoter=promo_brand["faces"],
+                    faces_ir=promo_brand["faces_ir"],
+                    faces_manhattan=None,
+                    faces_audited=None,
+                ),
+            )
 
+        for promo_product in data["products"]:
+            category = models.Category(
+                id=promo_product["segment"]["brand"]["category"]["id"],
+                name=promo_product["segment"]["brand"]["category"]["name"],
+            )
+            brand = models.Brand(
+                id=promo_product["segment"]["brand"]["id"],
+                name=promo_product["segment"]["brand"]["name"],
+                category=category,
+            )
+            segment = models.Segment(
+                id=promo_product["segment"]["id"],
+                name=promo_product["segment"]["name"],
+                brand=brand,
+            )
+            product = models.Product(
+                id=promo_product["id"],
+                name=promo_product["name"],
+                ean=promo_product["ean"],
+                image_url=promo_product["image_url"],
+                segment=segment,
+            )
+            _products.append(
+                models.ExecutionProduct(
+                    product=product,
+                    faces_promoter=promo_product["fronts"],
+                    faces_ir=promo_product["fronts_ir"],
+                    faces_manhattan=None,
+                    faces_audited=None,
+                    price_promoter=promo_product["price"],
+                    price_ir=promo_product["price_ir"],
+                    price_manhattan=None,
+                    price_audited=None,
+                )
+            )
 
-class PromoCategoryType(TypedDict):
-    id: str
-    name: str
-
-
-class PromoBrandType(TypedDict):
-    id: str
-    name: str
-    category: PromoCategoryType
-
-
-class PromoSegmentType(TypedDict):
-    id: str
-    name: str
-    brand: PromoBrandType
-
-
-class PromoProductType(TypedDict):
-    id: str
-    name: str
-    ean: str
-    image_url: str | None
-    segment: PromoSegmentType
-    fronts: int
-    fronts_ir: int
-    price: float
-    price_ir: float
-
-class PromoExecutionBrandType:
-    id: str
-    name: str
-    faces: int
-    faces_ir: int
-    category: PromoCategoryType
-
-
-class PromoExecutionType(TypedDict):
-    id: str
-    name: str
-    evidences: list[PromoEvidenceType]
-    products: list[PromoProductType]
-    brands: list[PromoExecutionBrandType]
+        _execution = models.Execution(id=data["id"], name=data["name"], brands=_brands, products=_products, evidences=data["evidences"])
+        await _execution.save(link_rule=WriteRules.WRITE)
+        return _execution

@@ -47,8 +47,14 @@ class Product(Document):
 
 
 class ExecutionProduct(Document):
-    faces: int
-    price: float | None
+    faces_promoter: int | None
+    faces_ir: int | None
+    faces_manhattan: int | None
+    faces_audited: int | None
+    price_promoter: float | None
+    price_ir: float | None
+    price_manhattan: float | None
+    price_audited: float | None
     product: Link[Product]
 
     class Settings:
@@ -57,7 +63,10 @@ class ExecutionProduct(Document):
 
 
 class ExecutionBrand(Document):
-    faces: int
+    faces_promoter: int | None
+    faces_ir: int | None
+    faces_manhattan: int | None
+    faces_audited: int | None
     brand: Link[Brand]
 
     class Settings:
@@ -76,14 +85,8 @@ class ExecutionEvidence(Document):
 class Execution(Document):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     name: str
-    brands_promoter: List[Link[ExecutionBrand]]
-    brands_ir: List[Link[ExecutionBrand]]
-    brands_manhattan: List[Link[ExecutionBrand]]
-    brands_audited: List[Link[ExecutionBrand]]
-    products_promoter: List[Link[ExecutionProduct]]
-    products_ir: List[Link[ExecutionProduct]]
-    products_manhattan: List[Link[ExecutionProduct]]
-    products_audited: List[Link[ExecutionProduct]]
+    brands: List[Link[ExecutionBrand]]
+    products: List[Link[ExecutionProduct]]
     evidences: List[Link[ExecutionEvidence]]
 
     class Settings:

@@ -8,7 +8,7 @@ async def process_images(images_base64: list[str], brands: list, products: list)
     client = genai.Client(api_key=settings.google_ai_studio_api_key)
     model = "gemini-2.5-flash-preview-05-20"
 
-    with open("prompts/quantifier_v2.txt", "r") as prompt_file:
+    with open("prompts/quantifier.txt", "r") as prompt_file:
         prompt = prompt_file.read()
 
     contents = [

@@ -1,9 +1,9 @@
 from typing import Annotated, List
 from beanie import WriteRules
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 from pydantic import BaseModel, Field
 
-from src.db.models import Brand, Category, Execution, ExecutionBrand, ExecutionProduct, Product, Segment
+from src.db.models import Execution
 from src.dependencies import get_promo
 from src.utils.image import url_image_to_base64
 from src.utils.promo import Promo
@@ -59,8 +59,14 @@ class ProductSchema(BaseModel):
 
 
 class ExecutionProductSchema(BaseModel):
-    faces: int
-    price: float
+    faces_promoter: int | None
+    faces_ir: int | None
+    faces_manhattan: int | None
+    faces_audited: int | None
+    price_promoter: float | None
+    price_ir: float | None
+    price_manhattan: float | None
+    price_audited: float | None
     product: ProductSchema
 
     class Config:
@@ -68,11 +74,15 @@ class ExecutionProductSchema(BaseModel):
 
 
 class ExecutionBrandSchema(BaseModel):
-    faces: int
+    faces_promoter: int | None
+    faces_ir: int | None
+    faces_manhattan: int | None
+    faces_audited: int | None
     brand: BrandSchema
 
     class Config:
         populate_by_name = True
+
 
 class EvidenceSchema(BaseModel):
     id: str = Field(..., alias="_id")
@@ -83,12 +93,8 @@ class EvidenceSchema(BaseModel):
 
 
 class DetailedExecutionSchema(ExecutionSchema):
-    products_promoter: List[ExecutionProductSchema]
-    products_ir: List[ExecutionProductSchema]
-    products_manhattan: List[ExecutionProductSchema]
-    brands_promoter: List[ExecutionBrandSchema]
-    brands_ir: List[ExecutionBrandSchema]
-    brands_manhattan: List[ExecutionBrandSchema]
+    brands: List[ExecutionBrandSchema]
+    products: List[ExecutionProductSchema]
     evidences: List[EvidenceSchema]
 
     class Config:
@@ -116,66 +122,37 @@ async def get_by_id(execution_id: str):
 
 
 @router.post("/process/by-name/{name}", response_model=ProcessByNameResponseModel)
-async def process_execution_by_name(name: str, promo: Annotated[Promo, Depends(get_promo)]):
-    execution = await promo.get_execution_by_name(name)
+async def process_execution_by_name(name: str, promo: Annotated[Promo, Depends(get_promo)], background_tasks: BackgroundTasks):
+    # background_tasks.add_task()
+    _execution = await promo.get_execution_by_name_and_save_to_db(name)
     images_base64 = list()
 
-    brands_promoter = list()
-    brands_ir = list()
-    products_promoter = list()
-    products_ir = list()
+    for evidence in _execution.evidences:
+        images_base64.append(await url_image_to_base64(evidence.url))
 
-    for promo_brand in execution["brands"]:
-        category = Category(id=promo_brand["category"]["id"], name=promo_brand["category"]["name"])
-        brand = Brand(id=promo_brand["id"], name=promo_brand["name"], category=category)
-        brands_promoter.append(ExecutionBrand(brand=brand, faces=promo_brand["faces"]))
-        brands_ir.append(ExecutionBrand(brand=brand, faces=promo_brand["faces_ir"]))
-
-    for promo_product in execution["products"]:
-        category = Category(id=promo_product["segment"]["brand"]["category"]["id"], name=promo_product["segment"]["brand"]["category"]["name"])
-        brand = Brand(id=promo_product["segment"]["brand"]["id"], name=promo_product["segment"]["brand"]["name"], category=category)
-        segment = Segment(id=promo_product["segment"]["id"], name=promo_product["segment"]["name"], brand=brand)
-        product = Product(id=promo_product["id"], name=promo_product["name"], ean=promo_product["ean"], image_url=promo_product['image_url'], segment=segment)
-        products_promoter.append(ExecutionProduct(faces=promo_product["fronts"], price=promo_product["price"], product=product))
-        products_ir.append(ExecutionProduct(faces=promo_product["fronts_ir"], price=promo_product["price_ir"], product=product))
-
-    _execution = Execution(
-        id=execution["id"],
-        name=execution["name"],
-        products_promoter=products_promoter,
-        products_ir=products_ir,
-        products_manhattan=[],
-        products_audited=[],
-        brands_promoter=brands_promoter,
-        brands_ir=brands_ir,
-        brands_audited=[],
-        brands_manhattan=[],
-        evidences=execution['evidences'],
-
-    )
-    await _execution.save(link_rule=WriteRules.WRITE)
-
-    for evidence in execution["evidences"]:
-        images_base64.append(await url_image_to_base64(evidence["url"]))
-
-    brands = execution["brands"]
+    brands = [dict(brand_id=execution_brand.brand.id, brand_name=execution_brand.brand.name) for execution_brand in _execution.brands]
     products = [
         dict(
-            product_id=product["id"],
-            product_name=product["name"],
-            brand_id=product["segment"]["brand"]["id"],
-            brand_name=product["segment"]["brand"]["name"],
+            product_id=execution_product.product.id,
+            product_name=execution_product.product.name,
+            brand_id=execution_product.product.segment.brand.id,
+            brand_name=execution_product.product.segment.brand.name,
         )
-        for product in execution["products"]
+        for execution_product in _execution.products
     ]
 
     result = await process_images(images_base64, brands, products)
 
     for brand in result["parsed"]["brands"]:
-        _execution.brands_manhattan.append(ExecutionBrand(faces=brand["fronts"], brand=brand["brand_id"]))
+        for exec_brand in _execution.brands:
+            if exec_brand.brand.id == brand["brand_id"]:
+                exec_brand.faces_manhattan = brand["fronts"]
 
     for product in result["parsed"]["products"]:
-        _execution.products_manhattan.append(ExecutionProduct(faces=product["fronts"], price=product["price"], product=product["product_id"]))
+        for exec_product in _execution.products:
+            if exec_product.product.id == product["product_id"]:
+                exec_product.faces_manhattan = product["fronts"]
+                exec_product.price_manhattan = product["price"]
 
     await _execution.save(link_rule=WriteRules.WRITE)
-    return dict(execution_id=execution["id"])
+    return dict(execution_id=_execution.id)
