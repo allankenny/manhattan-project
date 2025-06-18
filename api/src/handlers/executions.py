@@ -105,6 +105,17 @@ class ProcessByNameResponseModel(BaseModel):
     execution_id: str
 
 
+class AuditBrandSchema(BaseModel):
+    brand_id: str
+    faces: int
+
+
+class AuditProductSchema(BaseModel):
+    product_id: str
+    faces: int
+    price: float
+
+
 @router.get("/", response_model=List[ExecutionSchema])
 async def get_all(
     skip: int = Query(0, ge=0, description="Number of records to jump"),
@@ -156,3 +167,30 @@ async def process_execution_by_name(name: str, promo: Annotated[Promo, Depends(g
 
     await _execution.save(link_rule=WriteRules.WRITE)
     return dict(execution_id=_execution.id)
+
+
+@router.post("/{execution_id}/audit/brands", response_model=DetailedExecutionSchema)
+async def audit_brands(audited_brands: List[AuditBrandSchema], execution_id: str):
+    execution = await Execution.find(Execution.id == execution_id, fetch_links=True).first_or_none()
+    if not execution:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    for exec_brand in execution.brands:
+        for audited_brand in audited_brands:
+            if exec_brand.brand.id == audited_brand.brand_id:
+                exec_brand.faces_audited = audited_brand.faces
+    await execution.save(link_rule=WriteRules.WRITE)
+    return execution
+
+
+@router.post("/{execution_id}/audit/products", response_model=DetailedExecutionSchema)
+async def audit_brands(audited_products: List[AuditProductSchema], execution_id: str):
+    execution = await Execution.find(Execution.id == execution_id, fetch_links=True).first_or_none()
+    if not execution:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    for exec_product in execution.products:
+        for audited_product in audited_products:
+            if exec_product.product.id == audited_product.product_id:
+                exec_product.faces_audited = audited_product.faces
+                exec_product.price_audited = audited_product.price
+    await execution.save(link_rule=WriteRules.WRITE)
+    return execution
