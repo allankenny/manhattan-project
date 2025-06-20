@@ -13,9 +13,38 @@ from src.utils.ai import process_images
 router = APIRouter(prefix="/executions")
 
 
+class IndustrySchema(BaseModel):
+    id: str = Field(..., alias="_id")
+    name: str
+
+    class Config:
+        populate_by_name = True
+
+
+class StoreSchema(BaseModel):
+    id: str = Field(..., alias="_id")
+    name: str
+    cnpj: str
+
+    class Config:
+        populate_by_name = True
+
+
+class PromoterSchema(BaseModel):
+    id: str = Field(..., alias="_id")
+    username: str
+
+    class Config:
+        populate_by_name = True
+
+
 class ExecutionSchema(BaseModel):
     id: str = Field(..., alias="_id")
     name: str
+    date: str
+    industry: IndustrySchema
+    store: StoreSchema
+    promoter: PromoterSchema
 
     class Config:
         populate_by_name = True
@@ -121,7 +150,7 @@ async def get_all(
     skip: int = Query(0, ge=0, description="Number of records to jump"),
     limit: int = Query(10, ge=1, le=100, description="Maximum number of records to return"),
 ):
-    return await Execution.find_all().project(ExecutionSchema).skip(skip).limit(limit).to_list()
+    return await Execution.find(fetch_links=True, nesting_depth=1).project(ExecutionSchema).skip(skip).limit(limit).to_list()
 
 
 @router.get("/{execution_id}", response_model=DetailedExecutionSchema)

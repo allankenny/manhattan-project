@@ -82,9 +82,41 @@ class ExecutionEvidence(Document):
         indexes = [pymongo.IndexModel([("url", pymongo.TEXT)])]
 
 
+class Industry(Document):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+    name: str
+
+    class Settings:
+        name = "industries"
+        indexes = [pymongo.IndexModel([("name", pymongo.TEXT)])]
+
+
+class Promoter(Document):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+    username: str
+
+    class Settings:
+        name = "promoters"
+        indexes = [pymongo.IndexModel([("username", pymongo.TEXT)])]
+
+
+class Store(Document):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+    name: str
+    cnpj: str
+
+    class Settings:
+        name = "stores"
+        indexes = [pymongo.IndexModel([("name", pymongo.TEXT)])]
+
+
 class Execution(Document):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     name: str
+    date: str
+    industry: Link[Industry]
+    promoter: Link[Promoter]
+    store: Link[Store]
     brands: List[Link[ExecutionBrand]]
     products: List[Link[ExecutionProduct]]
     evidences: List[Link[ExecutionEvidence]]

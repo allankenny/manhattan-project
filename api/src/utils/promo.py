@@ -104,6 +104,19 @@ class Promo:
                 )
             )
 
-        _execution = models.Execution(id=data["id"], name=data["name"], brands=_brands, products=_products, evidences=data["evidences"])
-        await _execution.save(link_rule=WriteRules.WRITE)
-        return _execution
+        industry = models.Industry(id=data["industry"]["id"], name=data["industry"]["name"])
+        store = models.Store(id=data["store"]["id"], name=data["store"]["name"], cnpj=data['store']['cnpj'])
+        promoter = models.Promoter(id=data["promoter"]["id"], username=data["promoter"]["username"])
+        execution = models.Execution(
+            id=data["id"],
+            name=data["name"],
+            date=data["date"],
+            industry=industry,
+            store=store,
+            promoter=promoter,
+            brands=_brands,
+            products=_products,
+            evidences=data["evidences"],
+        )
+        await execution.save(link_rule=WriteRules.WRITE)
+        return execution

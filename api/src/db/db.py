@@ -14,6 +14,9 @@ async def init_db():
     await init_beanie(
         database=mongo_db_instance,
         document_models=[
+            models.Promoter,
+            models.Industry,
+            models.Store,
             models.Execution,
             models.ExecutionEvidence,
             models.ExecutionProduct,
