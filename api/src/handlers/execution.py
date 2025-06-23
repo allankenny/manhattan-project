@@ -4,7 +4,7 @@ from beanie import WriteRules
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 
 from src.schemas.execution import AuditBrandRequest, AuditProductRequest, ExecutionDetailResponse, ExecutionResponse, ProcessExecutionResponse
-from src.db.models import Execution, ExecutionBrand, ExecutionProduct, Industry, Product, Promoter, Store
+from src.db.models import Execution
 from src.dependencies import get_execution_service, get_industry_service, get_promo_api
 from src.services.execution import ExecutionService
 from src.services.industry import IndustryService
