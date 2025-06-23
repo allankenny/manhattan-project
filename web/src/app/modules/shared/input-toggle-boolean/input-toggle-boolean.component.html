@@ -1,0 +1,15 @@
+<div class="form-check form-switch">
+  <input
+    class="form-check-input" type="checkbox" role="switch"
+    value="" [id]="identifier"
+    [name]="identifier"
+    [attr.aria-invalid]="fieldIsInvalid()"
+    [attr.aria-label]="getAccessibleLabel()"
+    [attr.aria-required]="isRequired()"
+    [formControl]="$any(form.controls[identifier])"
+    [ngClass]="{ 'is-invalid': fieldIsInvalid() }">
+  <label class="form-check-label" [for]="identifier">
+    {{label}}
+  </label>
+</div>
+

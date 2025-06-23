@@ -1,0 +1,13 @@
+<div class="styleContainer">
+    <div
+        class="{{!hideToggle ? (isCollapsedReadMore ? 'styleCollapsed border-bottom' : 'styleExpanded border p-2 rounded-left rounded-right rounded-top') : 'styleToggleHidded border-bottom border-light'}}">
+        <span [innerHTML]="currentText"></span>
+    </div>
+    <div *ngIf="!hideToggle" class="small styleReadMoreButton text-nowrap text-right">
+        <a (click)="toggleView()" class="border border-top-0 p-1 rounded-bottom" role="button" tabindex="0"
+            title="{{isCollapsedReadMore? 'Expandir':'Recolher'}} texto '{{getSummaryForButton()}}'">
+            Leia <b>{{isCollapsedReadMore? 'mais':'menos'}}</b>
+            <i aria-hidden="true" class="fas fa-chevron-{{isCollapsedReadMore ? 'down':'up'}} ml-2"></i>
+        </a>
+    </div>
+</div>

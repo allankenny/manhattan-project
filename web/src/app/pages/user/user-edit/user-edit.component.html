@@ -1,0 +1,145 @@
+<div class="container">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
+					<li class="breadcrumb-item active">Usuário</li>
+					<li class="breadcrumb-item" aria-current="page">Cadastro</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<form [formGroup]="form" role="form">
+		<div class="row mt-30">
+			<div class="col-lg-12">
+				<div class="card mb-3">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-8">
+								<h3 class="title-cards">
+									Dados Gerais
+								</h3>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="col-xl-4">
+										<div class="image-input image-input-circle" data-kt-image-input="true"
+											style="background-image: url(../../../../assets/media/avatars/blank.png)">
+											<!--begin::Image preview wrapper-->
+											<div class="image-input-wrapper w-125px h-125px"
+												style="background-image: url({{getAvatarUrl()}})"></div>
+											<label
+												class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+												data-kt-image-input-action="change" data-bs-toggle="tooltip"
+												data-bs-dismiss="click" title="Alterar Imagem">
+												<i class="ki-duotone ki-pencil fs-6"><span class="path1"></span><span
+														class="path2"></span></i>
+												<input type="file" name="avatar" accept=".png, .jpg, .jpeg"
+													(change)="onFileChange($event)" />
+												<input type="hidden" name="avatar_remove" />
+											</label>
+
+											<span
+												class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+												data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+												data-bs-dismiss="click" title="Cancel avatar">
+												<i class="ki-outline ki-cross fs-3"></i>
+											</span>
+											<span
+												class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+												data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+												data-bs-dismiss="click" (click)="removeFile()" *ngIf="hasImage()"
+												title="Remover Imagem">
+												<i class="ki-outline ki-cross fs-3"></i>
+											</span>
+
+										</div>
+									</div>
+									<div class="col-xl-4">
+										<app-input-text identifier="first_name" label="Nome" [form]="form"
+											maxlength="200"></app-input-text>
+									</div>
+									<div class="col-xl-4">
+										<app-input-text identifier="last_name" label="Sobrenome" [form]="form"
+											maxlength="200"></app-input-text>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-xl-4">
+										<app-input-text identifier="email" label="Email" [form]="form"
+											maxlength="200"></app-input-text>
+									</div>
+									<div class="col-xl-2">
+										<app-input-phone identifier="phone" label="Telefone" [form]="form">
+										</app-input-phone>
+									</div>
+									<div class="col-xl-2">
+										<app-input-cpf identifier="cpf" label="CPF" [form]="form"
+											maxlength="200"></app-input-cpf>
+									</div>
+									<div class="col-xl-2">
+										<app-input-text identifier="username" label="Login" [form]="form"
+											maxlength="200"></app-input-text>
+									</div>
+
+									<div class="col-xl-2" *ngIf="!id">
+										<div class="position-relative">
+											<app-input-password identifier="password" label="Senha" [form]="form"
+												maxlength="200" s></app-input-password>
+										</div>
+										<!-- <div class="position-absolute popover-password"
+											[hidden]="lengthCharacter && lowercaseCharacter && upercaseCharacter && numberCharacter && notWhitespaceCharacter">
+											<p [ngStyle]="{'color': lengthCharacter ? 'green' : 'red'}">A senha deve
+												conter entre 8 ou mais caracteres.</p>
+											<p [ngStyle]="{'color': lowercaseCharacter ? 'green' : 'red'}">A senha deve
+												conter pelo menos uma letra minúscula.</p>
+											<p [ngStyle]="{'color': upercaseCharacter ? 'green' : 'red'}">A senha deve
+												conter pelo menos uma letra maiúscula.</p>
+											<p [ngStyle]="{'color': numberCharacter ? 'green' : 'red'}">A senha deve
+												conter pelo menos um número.</p>
+											<p [ngStyle]="{'color': notWhitespaceCharacter ? 'green' : 'red'}">A senha
+												não pode conter espaços em branco.</p>
+										</div> -->
+									</div>
+
+									<div class="col-xl-2 d-flex justify-content-end align-items-end" *ngIf="id">
+										<button class="btn btn-sm btn-primary btn-update-password" type="button"
+											(click)="updatePassword()">
+											Atualizar senha
+										</button>
+									</div>
+
+								</div>
+								<div class="row mt-3">
+									<div class="col-2" *ngIf="id">
+										<app-input-checkbox-boolean identifier="is_active" label="Ativo"
+											[form]="form"></app-input-checkbox-boolean>
+									</div>
+								</div>
+								<br>
+								<hr>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="d-flex action action--alt-1 text-right p-5 gap-4 justify-content-end">
+						<button type="button" class="btn btn-sm mr-2 btn-secondary" (click)="cancel()">
+							Cancelar
+						</button>
+						<button class="btn btn-sm btn-primary ml-10" type="button" (click)="save()">
+							Salvar
+						</button>
+						<br /><br />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<app-user-password-edit #userPasswordEditModal></app-user-password-edit>

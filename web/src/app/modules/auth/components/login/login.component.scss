@@ -1,0 +1,28 @@
+:host {
+  width: 100%;
+  @media (min-width: 992px) {
+    .login-form {
+      width: 100%;
+      max-width: 450px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.show-hide-icon-password {
+  height: 47px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left: none;
+}
+
+.border-left-none{
+  border-right: none !important;
+}
+
+.text-danger-form{
+  color: #f1416c;
+}

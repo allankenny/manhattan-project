@@ -1,0 +1,25 @@
+::ng-deep.ng-select.ng-select-single .ng-select-container{
+  height: 45px;
+  padding: 10px;
+  border-radius: 0.475rem
+}
+
+::ng-deep.ng-select .ng-select-container{
+  border-color: #DBDFE9;
+}
+
+::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input>input{
+  padding: 8px !important;
+}
+
+::ng-deep.ng-select.is-invalid .ng-select-container{
+  border-color: var(--bs-danger);
+}
+
+.invalid-feedback {
+  display: block !important;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--bs-danger-text);
+}

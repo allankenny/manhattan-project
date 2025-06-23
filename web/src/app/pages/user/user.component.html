@@ -1,0 +1,139 @@
+<div class="container">
+
+  <div class="row mb-3">
+    <div class="col-lg-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Usuário</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <form [formGroup]="form" role="form">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-lg-6">
+                <h3 class="title-cards">
+                  Filtrar Resultados
+                </h3>
+              </div>
+              <div class="d-flex justify-content-end col-lg-6 gap-3 mb-3">
+                <!-- <a class="btn btn-sm btn-upload" (click)="upload()" aria-label="upload">
+                  <span class="fa fa-file-import"></span> Importar
+                </a> -->
+                <a class="btn btn-sm btn-success" (click)="new()" aria-label="Novo registro">
+                  <span class="fa fa-plus-circle"></span> Cadastrar Novo
+                </a>
+              </div>
+            </div>
+            <div class="row collapse show" id="collapseExample">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-xl-4">
+                    <app-input-text identifier="name" label="Nome" [form]="form"></app-input-text>
+                  </div>
+                  <div class="col-xl-4">
+                    <app-input-select-boolean identifier="is_active" label="Ativo"
+                      [form]="form"></app-input-select-boolean>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-start action">
+            <button class="btn btn-sm btn-primary mr-2" (click)="query()">
+              <span class="fa fa-search" aria-hidden="true"></span> Consultar
+            </button>
+            <button class="btn btn-sm btn-default mr-10" (click)="clearFilter()">
+              <span class="fa fa-undo" aria-hidden="true"></span> Limpar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="row mt-30">
+    <div class="col-lg-12">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-8">
+              <h3 class="title-cards">
+                Resultado da Consulta de usuários
+              </h3>
+            </div>
+          </div>
+          <div class="row mt-3" *ngIf="content">
+            <div class="col-md-4 mb-4" id="kt_profile_aside" *ngFor="let item of content">
+              <div class="card card-custom card-stretch card-promoter mb-5">
+                <div class="card-body pt-4 card-user-padding">
+                  <div class="d-flex justify-content-end">
+                    <div ngbDropdown class="d-inline-block">
+                      <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                        Ações
+                      </button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem class="btn btn-sm btn-light ml-5 mr-5" (click)="edit(item)"
+                          aria-label="Editar registro" title="Editar registro">
+                          <span class="fa fa-pencil"></span>Alterar
+                        </button>
+                        <button ngbDropdownItem class="btn btn-sm btn-light ml-5 mr-5" (click)="confirmRemove(item)"
+                          aria-label="Remover registro">
+                          <span class="fa fa-trash"></span>Excluir
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-4">
+                    <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+                      <div class="symbol-label" style="background-image:url('{{item.avatar}}')">
+                      </div>
+                      <i class="symbol-badge bg-success"></i>
+                    </div>
+                    <div>
+                      <a href="#" class="fw-bold font-size-h4 text-dark-75 text-hover-primary">
+                        {{item.full_name}}
+                      </a>
+                      <div class="text-muted">
+                        {{item.username}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="py-9">
+                    <div class="d-flex align-items-center justify-content-between mb-2 gap-2">
+                      <div class="">
+                        <span class="fw-bold mr-2 text-muted">Nome:&nbsp;</span>
+                        <span class="text-muted">{{item.first_name}} {{item.last_name}}</span>
+                      </div>
+                      <div class="d-flex gap-2">
+                        <span *ngIf=item.is_superuser class="badge py-1 px-2 badge-light-primary">Admin</span>
+                        <span *ngIf=item.is_active class="badge py-1 px-2 badge-light-success">Ativo</span>
+                        <span *ngIf=!item.is_active class="badge py-1 px-2 badge-light-danger">Inativo</span>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start mb-2">
+                      <span class="fw-bold mr-2 text-muted">Email:&nbsp;</span>
+                      <a href="#" class="text-muted text-hover-primary">{{item.email}}</a>
+                    </div>
+                    <!-- <div class="d-flex align-items-center justify-content-between">
+                      <span class="fw-bold mr-2 text-muted">CPF:</span>
+                      <span class="text-muted">{{item.cpf | cpf}}</span>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <app-pager [pageInfo]="pageInfo" (pageChange)="query()"></app-pager>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

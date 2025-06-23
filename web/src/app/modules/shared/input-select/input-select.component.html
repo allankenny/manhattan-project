@@ -1,0 +1,23 @@
+<div class="form-group">
+	<label [ngClass]="{ 'required': isRequired() }" class="form-label" [for]="'inputselect_' + identifier">{{label}}:</label>
+	<select autofocus class="form-select"
+          (change)="onChange()"
+          (focusout)="onFocusOut()"
+          [id]="'inputselect_' + identifier"
+          [name]="'inputselect_' + identifier"
+          [attr.aria-invalid]="fieldIsInvalid()"
+          [attr.aria-label]="getAccessibleLabel()"
+          [attr.aria-required]="isRequired()"
+          [compareWith]="compareWith"
+          [formControl]="form.controls[identifier]"
+          [ngClass]="{ 'is-invalid': fieldIsInvalid() }">
+		<option *ngIf="showNullOption" class="text-muted" [ngValue]="null">{{labelSelecione}}</option>
+		<option class="{{isItemWithCrossedOutText(option) ? 'deleted-entry' : ''}}" title="{{getItemTitle(option)}}"
+                *ngFor="let option of options" [ngValue]="option">
+      {{getItemLabel(option)}}
+    </option>
+	</select>
+	<div class="invalid-feedback" *ngIf="fieldIsInvalid()">
+		{{label}} inválido
+	</div>
+</div>

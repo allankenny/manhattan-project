@@ -1,0 +1,107 @@
+<div class="row mt-30" *ngIf="successImportList">
+  <div class="col-lg-12">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row d-flex justify-content-between">
+          <div class="col-lg-8">
+            <h3 class="title-cards">
+              Resultado da Importação: <span class="text-success">{{ successImportList.length }} {{ resultTitle
+                }}</span>
+            </h3>
+          </div>
+        </div>
+        <!-- <div *ngIf="showResults">
+          <div class="row mt-3" *ngIf="errorImportList">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="header-table">
+                    <th class="text-start" scope="col">Linha</th>
+                    <th class="text-start" scope="col">Item</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of successImportList">
+                    <td>{{ item.line_number }}</td>
+                    <td>{{ item.nome }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-30" *ngIf="errorImportList">
+  <div class="col-lg-12">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row d-flex justify-content-between">
+          <div class="col-lg-8">
+            <h3 class="title-cards">
+              Resultado da Importação: <span class="text-danger">{{ errorImportList.length }} {{ resultTitle }}</span>
+            </h3>
+          </div>
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="hideErrorList()">
+            <i [ngClass]="{'bi bi-eye-slash': showResults, 'bi bi-eye': !showResults}"></i>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showResults">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="header-table">
+                  <th class="text-start" scope="col">Linha</th>
+                  <th class="text-start" scope="col">Item</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of errorImportList">
+                  <td>{{ item.line_number }}</td>
+                  <td>
+                    <strong class="text-danger"> Coluna {{ item.key }}: </strong> {{ item.message }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-30" *ngIf="headerErrorDetail">
+  <div class="col-lg-12">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row d-flex justify-content-between">
+          <div class="col-lg-8">
+            <h3 class="title-cards text-danger">
+              Sua planilha deve conter as seguintes colunas:
+            </h3>
+          </div>
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="hideErrorList()">
+            <i [ngClass]="{'bi bi-eye-slash': showResults, 'bi bi-eye': !showResults}"></i>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showResults">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="header-table">
+                  <th class="text-start" scope="col">
+                    {{ headerErrorDetail.join(', ') }}
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

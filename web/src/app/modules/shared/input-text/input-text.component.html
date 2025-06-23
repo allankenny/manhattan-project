@@ -1,0 +1,16 @@
+<div class="form-group">
+	<label [ngClass]="{ 'required': isRequired() }" class="form-label" [for]="identifier">
+		{{label}}:
+	</label>
+	<input autofocus class="form-control" (blur)="onBlur()" [id]="identifier"
+		maxlength="{{maxlength}}" [name]="identifier" type="text" upperCase
+		[attr.aria-invalid]="fieldIsInvalid()"
+		[attr.aria-label]="getAccessibleLabel()"
+		[attr.aria-required]="isRequired()"
+		[formControl]="$any(form.controls[identifier])"
+		[ngClass]="{ 'is-invalid': fieldIsInvalid() }"
+		[placeholder]="placeholder" [readOnly]="readonly">
+  <div class="invalid-feedback" *ngIf="fieldIsInvalid()">{{getErrorMessage()}}</div>
+</div>
+
+

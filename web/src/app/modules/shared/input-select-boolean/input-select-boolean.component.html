@@ -1,0 +1,17 @@
+<div class="form-group">
+  <label [ngClass]="{ 'required': isRequired() }" class="form-label" [for]="identifier">{{label}}:</label>
+  <select autofocus class="form-select" [id]="identifier"
+          [name]="identifier" (change)="onChange($event)"
+          [attr.aria-invalid]="fieldIsInvalid()"
+          [attr.aria-label]="getAccessibleLabel()"
+          [attr.aria-required]="isRequired()"
+          [formControl]="form.controls[identifier]"
+          [ngClass]="{ 'is-invalid': fieldIsInvalid() }">
+    <option [ngValue]="null" class="text-muted">Selecione</option>
+    <option [ngValue]="true">{{trueOptionLabel}}</option>
+    <option [ngValue]="false">{{falseOptionLabel}}</option>
+  </select>
+  <div class="invalid-feedback" *ngIf="fieldIsInvalid()">{{label}}
+    inválido
+  </div>
+</div>

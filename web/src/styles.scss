@@ -1,0 +1,294 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style.scss";
+// Replace above style with this css file to enable RTL styles
+// @import "./assets/css/style.rtl";
+@import './assets/sass/plugins.scss';
+// @import "./assets/css/style.rtl.css";
+@import "./assets/sass/style.angular.scss";
+
+// Keenicons - High quality and pixel perfect font icons available in 3 styles, duotone, outline and solid for Metronic elements
+@import "./assets/plugins/keenicons/duotone/style.css";
+@import "./assets/plugins/keenicons/outline/style.css";
+@import "./assets/plugins/keenicons/solid/style.css";
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.header-table{
+  background: #f4f4f5;
+  font-weight: bold !important;
+  padding-left:5px !important;
+  padding-right: 5px !important;
+}
+
+.font-small-form{
+  font-size: 0.875em
+}
+
+.wrapper {
+  overflow-x: scroll;
+}
+
+.wrapper table {
+  white-space: nowrap;
+}
+
+.bg-transparent{
+  background-color: antiquewhite;
+}
+
+.bg-gradient-primary{
+  background: linear-gradient(121deg, rgb(15, 23, 42) 18%, rgb(8, 145, 178) 100%);
+}
+
+.bg-card-primary{
+  background-color: #206481 !important;
+}
+
+.icon-primary {
+  color:#206581 !important;
+  font-size: 1.2em !important;
+  margin-right: 5px !important;
+}
+
+.font-small{
+  font-size: 0.9rem;
+}
+
+.card-logo{
+  height: 130px;
+  // background-color: azure;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card-logo-industry{
+  height: 90px;
+  // background-color: azure;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.b-l-1px{
+  border-left: 1px solid #e6e5e5;
+}
+
+.b-l-2px{
+  border-left: 2px solid #e6e5e5;
+}
+
+.b-l-3px{
+  border-left: 3px solid #e6e5e5;
+}
+
+.b-t-1px{
+  border-top: 1px solid #e6e5e5;
+}
+
+.b-t-2px{
+  border-top: 2px solid #ccc;
+}
+
+.b-t-3px{
+  border-top: 3px solid #ccc;
+}
+
+.color-primary{
+  color: #206581 !important;
+}
+
+.card-chart{
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  height: 300px;
+  border: 1px solid #e6eaf5;
+  -webkit-box-shadow: -1px 10px 23px -15px rgba(0,0,0,0.66);
+  -moz-box-shadow: -1px 10px 23px -15px rgba(0,0,0,0.66);
+  box-shadow: -1px 10px 23px -15px rgba(0,0,0,0.66);
+
+  .label{
+    font-size: 1em;
+    color: #99A1B7;
+    font-weight: 300;
+  }
+
+  .total{
+    font-size: 2.3em;
+    color: #206581;
+    font-weight: 900;
+  }
+
+  .icon-card{
+    font-size: 0.7em !important;
+    margin-left: 15px !important;
+  }
+
+  .details:hover{
+    color: #206581 !important;
+  }
+
+}
+
+.bg-light-blue-progress{
+  background-color: #FFF5F9;
+}
+
+.bg-blue-progress{
+  background-color: #41c5f1;
+}
+
+
+.button-logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  object-fit: contain;
+}
+
+.img-logo-button{
+  max-height: 40px;
+}
+
+.img-logo-button-w{
+  padding-top: 10px;
+  max-width: 70px;
+}
+
+.card-shadow{
+  border-radius: 20px;
+  -webkit-box-shadow: -1px 10px 23px -15px rgba(0,0,0,0.66) !important;
+  -moz-box-shadow: -1px 10px 23px -15px rgba(0,0,0,0.66) !important;
+  box-shadow: -1px 10px 23px -15px rgba(0,0,0,0.66) !important;
+}
+
+.card-shadow-light{
+  -webkit-box-shadow: 2px 0px 9px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 0px 9px -4px rgba(0,0,0,0.75);
+  box-shadow: 2px 0px 9px -4px rgba(0,0,0,0.75);
+}
+
+.nav-item-logo-dash{
+  width: 10% !important;
+}
+
+.wizard-container{
+  width: 100%;
+  background-color: #F2F2F2;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 10px;
+
+  .wizard-header{
+    display:flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 15px 0;
+
+    .wizard-step-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #206481;
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 15px;
+      .number{
+        font-size: 1rem !important;
+        font-weight: bold;
+        color: #fff;
+      }
+    }
+
+    .wizard-title{
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+
+      .text-title-step{
+        font-size: 1rem;
+        color: #6B7785;
+      }
+    }
+
+    .wizard-icon{
+      margin-right: 10px;
+    }
+
+    .icon-size{
+      font-size: 1.2rem !important;
+    }
+  }
+
+  .wizard-body{
+    display: flex;
+    width: 100%;
+    border-top: 1px solid #dedede;
+    padding: 10px 0;
+  }
+}
+
+.wizard-header:hover{
+  background-color: #e6e6e6;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.resume{
+  display: flex;
+  width: 100%;
+
+  .resume-text{
+    font-size: 1rem;
+    color: #6B7785;
+  }
+}
+
+.container-loading{
+  display: flex;
+  width: 100%;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.checkbox_color {
+  color: #0e7490;
+  accent-color: currentcolor;
+  }
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

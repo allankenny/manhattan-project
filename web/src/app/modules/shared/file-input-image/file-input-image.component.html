@@ -1,0 +1,37 @@
+<!-- <div class="form-group">
+	<label [for]="identifier" [ngClass]="{ 'required': isRequired() }" *ngIf="label">{{label}}:</label>
+	<div class="custom-file">
+		<input class="custom-file-input"
+			type="file" (change)="onChange($event)"
+			[attr.aria-invalid]="fieldIsInvalid()"
+			[attr.aria-label]="getAccessibleLabel()"
+			[attr.aria-required]="isRequired()"
+			[formControl]="form.controls[identifier]"
+			[ngClass]="{ 'is-invalid': fieldIsInvalid() }">
+		<label class="custom-file-label">
+			<span class="text-danger" *ngIf="isArquivoRejeitado()">
+				<span class="mr-1"><i class="fas fa-file-excel"></i></span>
+				Arquivo inaceitável, escolha outro!
+			</span>
+			<span *ngIf="!isArquivoRejeitado()">
+				<span class="text-muted" *ngIf="!hasFile()">
+					<span class="mr-1"><i class="far fa-file"></i></span>
+					Nenhum arquivo selecionado.
+				</span>
+				<span *ngIf="hasFile()">
+					<span class="mr-1"><i class="fas fa-file-upload"></i></span>
+					{{getNameToDisplay()}}
+				</span>
+			</span>
+		</label>
+	</div>
+	<div class="invalid-feedback" *ngIf="fieldIsInvalid()">
+		{{label}} inválido
+	</div>
+	<div class="invalid-feedback" *ngIf="isShowInvalidFileFormatError()">
+		Tipo de arquivo inválido: As extensões ".exe", ".msg", ".rar" e ".zip"  não são permitidas.
+	</div>
+	<div class="invalid-feedback" *ngIf="isShowInvalidFileSizeError()">
+		O tamanho do arquivo não pode ser acima de {{getMaxFileSizeInMegabytes()}} Megabytes.
+	</div>
+</div> -->

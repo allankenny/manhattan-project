@@ -1,0 +1,10 @@
+<ngb-pagination
+	[collectionSize]="pageInfo.count"
+	[(page)]="pageInfo.actualPage"
+	[maxSize]="pageInfo.pageSize"
+	[rotate]="true"
+	[ellipses]="false"
+	[boundaryLinks]="true"
+	(pageChange)="onPageChange()"
+	*ngIf="pageInfo.count > pageInfo.pageSize"
+></ngb-pagination>

@@ -1,0 +1,53 @@
+.styleContainer {
+}
+
+.styleCollapsed {
+    max-width: calc(100% - 1px);
+    margin-bottom: 1px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.styleExpanded {
+    border-radius: 10px;
+    margin-bottom: 1px;
+    min-height: 24px;
+    max-height: 120px;
+    overflow: auto;
+    overflow-wrap: break-word;
+    text-align: justify;
+    word-wrap: break-word;
+}
+
+.styleToggleHidded {
+    white-space: nowrap;
+}
+
+.styleReadMoreButton a {
+    color: #002b4e;
+    transition: 0.3s;
+}
+
+.styleReadMoreButton a:hover {
+    color: white;
+    background-color: #002b4e;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(13deg, #828282 14%,#949494 64%);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: linear-gradient(13deg, #505050 14%,#555555 64%);
+}
+::-webkit-scrollbar-track{
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: inset 7px 10px 12px #f0f0f0;
+}

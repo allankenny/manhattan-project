@@ -1,0 +1,30 @@
+<div class="form-group">
+	<label [ngClass]="{ 'required': isRequired() }" class="form-label" [for]="identifier">{{label}}:</label>
+
+	<div [id]="identifier">
+		<ng-select 
+			[formControl]="form.controls[identifier]"
+			[attr.aria-invalid]="fieldIsInvalid()"
+			[attr.aria-label]="getAccessibleLabel()"
+			[attr.aria-required]="isRequired()" 
+			[items]="results"
+			(change)="onSelect($event)"
+			(clear)="onClear()" 
+			[multiple]="true"
+			[hideSelected]="true"
+			notFoundText="Nenhum registro encontrado"
+			[searchFn]="customSearchFn"
+			placeholder="Selecione"
+			[bindLabel]="bindLabel"
+			[ngClass]="{ 'is-invalid': fieldIsInvalid() }">
+			<ng-template ng-option-tmp let-item="item">
+		   		<div>
+			   		<span title="{{getItemTitle(item)}}" [innerHTML]="getItemLabel(item)"> </span> <br />
+			   		<small>{{getItemDescription(item)}}</small>
+		   		</div>
+		   </ng-template>
+		</ng-select>
+	</div>
+	<div class="invalid-feedback" *ngIf="fieldIsInvalid()">{{label}}
+		inválido</div>
+</div>

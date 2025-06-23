@@ -1,0 +1,25 @@
+<div class="form-group" [formGroup]="form">
+	<label [ngClass]="{ 'required': isRequired() }" class="form-label" [for]="identifier">{{label}}:</label>
+
+	<div class="ng-autocomplete" [id]="identifier">
+		<ng-select #selectOrigem dropdownPosition="auto"
+			notFoundText="Nenhum registro encontrado"
+			typeToSearchText="Digite para pesquisar" (change)="onSelect($event)"
+			(clear)="onClear()" [formControlName]="identifier"
+			[attr.aria-invalid]="fieldIsInvalid()"
+			[attr.aria-label]="getAccessibleLabel()"
+			[attr.aria-required]="isRequired()" [items]="results"
+			[loading]="isLoading" [minTermLength]="3" [typeahead]="queryOnChange"
+			[virtualScroll]="true"> <ng-template ng-option-tmp
+			let-item="item" let-search="searchTerm">
+		<div>
+			<span title="{{getItemTitle(item)}}"
+				[innerHTML]="getItemLabel(item)"> </span> <br />
+			<small>{{getItemDescription(item)}}</small>
+		</div>
+		</ng-template> </ng-select>
+	</div>
+
+	<div class="invalid-feedback" *ngIf="fieldIsInvalid()">{{label}}
+		inválido</div>
+</div>
