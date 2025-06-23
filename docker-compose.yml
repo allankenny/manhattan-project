@@ -7,7 +7,7 @@ services:
       - ./api:/app
       - /app/.venv
     environment:
-      - MONGO_DB_URL=mongodb://mongo:27017/manhattan
+      - MONGO_DB_URL=mongodb+srv://manhattan:ddt4nQTv0HLEHUaB@cluster0.hjqxpyq.mongodb.net/manhattan?retryWrites=true&w=majority
       - GOOGLE_AI_STUDIO_API_KEY=AIzaSyD3_TDvvrmasyzaSD1-pQwkEXgLWlK7OoE
       - PROMO_API_URL=http://host.docker.internal:8001
       - PROMO_ADM_USER=sadm
