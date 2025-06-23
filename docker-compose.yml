@@ -9,7 +9,7 @@ services:
     environment:
       - MONGO_DB_URL=mongodb+srv://manhattan:ddt4nQTv0HLEHUaB@cluster0.hjqxpyq.mongodb.net/manhattan?retryWrites=true&w=majority
       - GOOGLE_AI_STUDIO_API_KEY=AIzaSyD3_TDvvrmasyzaSD1-pQwkEXgLWlK7OoE
-      - PROMO_API_URL=http://host.docker.internal:8001
+      - PROMO_API_URL=https://api.promo.v3.tradexbip.com
       - PROMO_ADM_USER=sadm
       - PROMO_ADM_PASS=yQURHNbpC0PME0aHovr
     depends_on:
