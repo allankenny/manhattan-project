@@ -1,0 +1,11 @@
+Você receberá uma imagem de um produto. Sua tarefa é analisar a imagem e gerar uma descrição concisa e objetiva do produto visível, focando nos atributos mais relevantes para sua identificação por outra IA. Não inclua qualquer introdução como 'A imagem mostra...' ou frases similares. A descrição deve listar as características visíveis e mensuráveis, priorizando as que distinguem o produto de outros similares. Inclua os seguintes pontos, quando visíveis e aplicáveis:
+
+Categoria Principal do Produto: Qual é o tipo de produto (ex: smartphone, tênis esportivo, cadeira de escritório, garrafa térmica, etc.)?
+Cor(es) Dominante(s): Liste as cores principais do produto. Se houver padrões ou detalhes coloridos significativos, mencione-os.
+Material(is) Predominante(s): Indique o(s) material(is) aparente(s) (ex: metal, plástico, tecido, vidro, madeira, borracha).
+Formato Geral e Dimensões Estimadas: Descreva a forma básica (ex: retangular, cilíndrica, irregular) e uma estimativa de tamanho (ex: pequeno, médio, grande, ou, se possível, proporções como 'fino e alongado').
+Elementos Distintivos/Marcas:
+Logotipos ou Textos Visíveis: Há alguma marca, logotipo ou inscrição textual legível? Qual é?
+Características Únicas: Existem características físicas incomuns ou únicas que ajudam a identificar este produto (ex: número específico de botões em uma lateral, um design de sola particular, um tipo de conector incomum, furos de ventilação em um padrão específico, etc.)?
+Acessórios Integrados ou Notáveis: O produto possui componentes ou acessórios claramente visíveis e fixos (ex: alça, tela, lente, teclado, rodas, etc.)? Descreva-os brevemente.
+A descrição deve ser factual e livre de interpretações subjetivas ou juízos de valor. O objetivo é fornecer os dados brutos essenciais para que outra IA possa fazer uma correspondência precisa.

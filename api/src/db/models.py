@@ -39,6 +39,7 @@ class Product(Document):
     name: str
     ean: str
     image_url: str | None
+    description: str | None
     segment: Link[Segment]
 
     class Settings:

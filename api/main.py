@@ -3,7 +3,8 @@ from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.db import db
-from src.handlers.executions import router as executions_router
+from src.handlers.execution import router as execution_router
+from src.handlers.industry import router as industry_router
 
 
 @asynccontextmanager
@@ -23,4 +24,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.include_router(executions_router)
+app.include_router(execution_router)
+app.include_router(industry_router)

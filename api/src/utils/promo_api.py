@@ -7,7 +7,7 @@ from settings import settings
 from src.db import models
 
 
-class Promo:
+class PromoAPI:
 
     _base_url = settings.promo_api_url
     _access_token: str | None = None
@@ -40,6 +40,22 @@ class Promo:
             return True
         return False
 
+    async def get_industry_products(self, industry_id: str) -> dict | None:
+        status, products_api = await self._request(
+            "get",
+            "/product/",
+            params={"expand": "segment.brand.category", "industry_id": industry_id, "filter_active": "True", "no_pagination": "True"},
+        )
+        if status != 200:
+            return None
+        return products_api
+
+    async def get_execution_by_name(self, name: str) -> dict | None:
+        status, data = await self._request("get", f"/execution/by_name/{name}")
+        if status != 200:
+            return None
+        return data
+
     async def get_execution_by_name_and_save_to_db(self, name: str) -> Union[models.Execution, None]:
         status, data = await self._request("get", f"/execution/by_name/{name}")
         if status != 200:
@@ -48,25 +64,30 @@ class Promo:
         _brands = list()
         _products = list()
 
+        db_brands = models.Brand.find().to_list()
+        db_brands_ids = list(brand.id for brand in db_brands)
+        db_products = models.Product.all().to_list()
+
         for promo_brand in data["brands"]:
-            category = models.Category(
-                id=promo_brand["category"]["id"],
-                name=promo_brand["category"]["name"],
-            )
-            brand = models.Brand(
-                id=promo_brand["id"],
-                name=promo_brand["name"],
-                category=category,
-            )
-            _brands.append(
-                models.ExecutionBrand(
-                    brand=brand,
-                    faces_promoter=promo_brand["faces"],
-                    faces_ir=promo_brand["faces_ir"],
-                    faces_manhattan=None,
-                    faces_audited=None,
-                ),
-            )
+            if promo_brand["id"] in db_brands_ids:
+                category = models.Category(
+                    id=promo_brand["category"]["id"],
+                    name=promo_brand["category"]["name"],
+                )
+                brand = models.Brand(
+                    id=promo_brand["id"],
+                    name=promo_brand["name"],
+                    category=category,
+                )
+                _brands.append(
+                    models.ExecutionBrand(
+                        brand=brand,
+                        faces_promoter=promo_brand["faces"],
+                        faces_ir=promo_brand["faces_ir"],
+                        faces_manhattan=None,
+                        faces_audited=None,
+                    ),
+                )
 
         for promo_product in data["products"]:
             category = models.Category(
@@ -88,6 +109,7 @@ class Promo:
                 name=promo_product["name"],
                 ean=promo_product["ean"],
                 image_url=promo_product["image_url"],
+                description=None,
                 segment=segment,
             )
             _products.append(
@@ -105,7 +127,7 @@ class Promo:
             )
 
         industry = models.Industry(id=data["industry"]["id"], name=data["industry"]["name"])
-        store = models.Store(id=data["store"]["id"], name=data["store"]["name"], cnpj=data['store']['cnpj'])
+        store = models.Store(id=data["store"]["id"], name=data["store"]["name"], cnpj=data["store"]["cnpj"])
         promoter = models.Promoter(id=data["promoter"]["id"], username=data["promoter"]["username"])
         execution = models.Execution(
             id=data["id"],

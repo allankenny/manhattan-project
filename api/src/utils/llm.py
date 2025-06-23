@@ -80,7 +80,7 @@ async def process_images(images_base64: list[str], brands: list, products: list)
     return generated_content.to_json_dict()
 
 
-def get_product_description(image_base64: str) -> str:
+async def get_product_description(image_base64: str) -> str:
     client = genai.Client(api_key=settings.google_ai_studio_api_key)
     model = "gemini-2.5-flash-preview-05-20"
 
@@ -97,6 +97,15 @@ def get_product_description(image_base64: str) -> str:
         response_mime_type="application/json",
         thinking_config=types.ThinkingConfig(
             thinking_budget=0,
+        ),
+        response_schema=genai.types.Schema(
+            type=genai.types.Type.OBJECT,
+            required=["description"],
+            properties={
+                "description": genai.types.Schema(
+                    type=genai.types.Type.STRING,
+                ),
+            },
         ),
     )
 

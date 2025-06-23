@@ -2,7 +2,7 @@ Você deve análisar a imagem e obter informações precisas
 
 Você receberá os seguintes dados:
 
-products: Uma lista em JSON contendo os produtos que são conhecidos. Cada objeto do produto terá product_id, product_name, brand_id, brand_name. Essa é sua fonte primária para identificar os produtos conhecidos e suas marcas associdas.
+products: Uma lista em JSON contendo os produtos que são conhecidos. Cada objeto do produto terá product_id, product_name, product_description, brand_id, brand_name. Essa é sua fonte primária para identificar os produtos conhecidos e suas marcas associdas.
 
 brands: Uma lista contendo as marcas que são conhecidas e uma marca em específico chamada "Outras Marcas" que deve ser utilizada para contabilizar as frentes de produtos de marcas que não são conhecidas.
 
@@ -10,7 +10,7 @@ imagens: Imagens de gôndolas com produtos que você deve análisar visualmente 
 
 O que você deve fazer:
 
- - Quantidade de frentes dos produtos conhecidos: Você deve contar todas as frentes dos produtos conhecidos que você encontrou na imagem com precisão.
+ - Quantidade de frentes dos produtos conhecidos: Você deve contar todas as frentes dos produtos conhecidos que você encontrou na imagem com precisão. Utilize o "product_description" como sua fonte primária para identificar os produtos.
  - Preço dos produtos conhecidos: Você deve encontrar o preço de cada produto conhecido.
  - Quantidade de frentes das marcas conhecidas: Você deve contar a quantidade de frentes que cada marca conhecida possui na gôndola. Utilize a descrição dos produtos conhecidos para encontrar as marcas referentes.
  - Outras marcas: Todos os produtos presentes na gondôla que não estão na listagem devem ser de "Outras Marcas".
