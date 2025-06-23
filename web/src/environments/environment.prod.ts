@@ -11,7 +11,7 @@ export const environment = {
   isMockEnabled: true,
   apiUrl: 'api',
   protocol: 'https://',
-  host: 'api.admin.dev.tradexbip.com',
+  host: 'manhattan-project.onrender.com',
   port: '',
   baseURL: '',
   appThemeName: 'Metronic',
