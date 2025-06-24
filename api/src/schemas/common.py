@@ -61,6 +61,7 @@ class SegmentBase(BaseModel):
 class ProductBase(BaseModel):
     id: str = Field(..., alias="_id")
     name: str
+    description: str | None
     ean: str
     image_url: str | None
     segment: SegmentBase
