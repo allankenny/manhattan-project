@@ -48,6 +48,7 @@ export class IAprocessingAnalyticComponent
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.id = this.activatedRoute.snapshot.params["id"];
     if (this.id) {
       this.service.getDataIaProcessing(this.id).subscribe({
@@ -56,8 +57,10 @@ export class IAprocessingAnalyticComponent
           console.log("Execution Data:", this.executionData);
           this.buildChart(resp.brands);
           this.buildChartProducts(resp.products);
+          this.loading = false;
         },
         error: (error) => {
+          this.loading = false;
           this.errorHandlerService.handle(error);
         },
       });
