@@ -5,6 +5,11 @@
     </button>
   </div>
 
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div>Carregando...</div>
+  </div>
+
   <div class="row mb-3">
     <div class="col-lg-12">
       <nav aria-label="breadcrumb">

@@ -48,6 +48,7 @@ export class IAprocessingAnalyticComponent
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.id = this.activatedRoute.snapshot.params["id"];
     if (this.id) {
       this.service.getDataIaProcessing(this.id).subscribe({
@@ -56,8 +57,10 @@ export class IAprocessingAnalyticComponent
           console.log("Execution Data:", this.executionData);
           this.buildChart(resp.brands);
           this.buildChartProducts(resp.products);
+          this.loading = false;
         },
         error: (error) => {
+          this.loading = false;
           this.errorHandlerService.handle(error);
         },
       });
@@ -205,25 +208,25 @@ export class IAprocessingAnalyticComponent
     this.iaProcessingShowEvidencesComponent.open(evidenceUrl);
   }
 
-  // setFacesAudited(item: any) {
-  //   console.log("Marca encontrada:", item.brand);
-  //   console.log("Quantidade a ser salva:", item.faces_audited);
-  //   this.loading = true;
-  //   if (item.faces_audited === null || item.faces_audited === undefined) {
-  //     this.alertSwal.error('Quantidade a ser salva não pode ser nula ou indefinida.');
-  //     return;
-  //   }
-  //   const data = [
-  //     {
-  //       brand_id: item.brand._id,
-  //       faces: item.faces_audited
-  //     }
-  //   ];
-  //   this.service.setFacesAudit(this.id, data).subscribe(() => {
-  //     this.alertSwal.success('Dados salvos com sucesso!');
-  //   });
-  //   this.loading = false;
-  // }
+  setFacesAudited(item: any) {
+    console.log("Marca encontrada:", item.brand);
+    console.log("Quantidade a ser salva:", item.faces_audited);
+    this.loading = true;
+    if (item.faces_audited === null || item.faces_audited === undefined) {
+      this.alertSwal.error('Quantidade a ser salva não pode ser nula ou indefinida.');
+      return;
+    }
+    const data = [
+      {
+        brand_id: item.brand._id,
+        faces: item.faces_audited
+      }
+    ];
+    this.service.setFacesAudit(this.id, data).subscribe(() => {
+      this.alertSwal.success('Dados salvos com sucesso!');
+    });
+    this.loading = false;
+  }
 
   setFacesAuditedProduct(item: any) {
     if (item.faces_audited === null || item.faces_audited === undefined || item.price_audited === null || item.price_audited === undefined) {

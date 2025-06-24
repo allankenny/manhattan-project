@@ -21,6 +21,7 @@ export class IAprocessingComponent implements OnInit {
 
   form: FormGroup;
   loading: boolean = false;
+  loadingList: boolean = false;
 
   constructor(private service: ExecutionsService,
     private router: Router,
@@ -36,12 +37,15 @@ export class IAprocessingComponent implements OnInit {
   }
 
   getListExecutionsProcessed(): void {
+    this.loadingList = true;
     this.service.getList().subscribe(
       {
         next: (resp) => {
           this.executionList = resp;
+          this.loadingList = false;
         },
         error: (erro) => {
+          this.loadingList = false;
           this.errorHandlerService.handle(erro);
         }
       }
