@@ -13,6 +13,7 @@ import { Location } from "@angular/common";
 import { ExecutionsService } from "src/app/services/executions.service";
 import type { EChartsOption, BarSeriesOption } from 'echarts';
 import { IAProcessingShowEvidencesComponent } from "../ia-processing-show-evidences/ia-processing-show-evidences.component";
+import { IAProcessingShowProductDetailsComponent } from "../ia-processing-show-product-details/ia-processing-show-product-details.component";
 
 @Component({
   selector: "app-ia-processing-analytic",
@@ -33,6 +34,7 @@ export class IAprocessingAnalyticComponent
   loading: boolean = false;
 
   @ViewChild(IAProcessingShowEvidencesComponent) private iaProcessingShowEvidencesComponent: IAProcessingShowEvidencesComponent;
+  @ViewChild(IAProcessingShowProductDetailsComponent) private iaProcessingShowProductDetailsComponent: IAProcessingShowProductDetailsComponent;
 
   showContainerEvidence: boolean = false;
 
@@ -261,6 +263,15 @@ export class IAprocessingAnalyticComponent
       this.alertSwal.success('Dados salvos com sucesso!');
     });
 
+  }
+
+  showDetailsProduct(item: any): void {
+    console.log("Item selecionado:", item);
+    if (!item) {
+      this.alertSwal.error('Nenhum produto selecionado.');
+      return;
+    }
+    this.iaProcessingShowProductDetailsComponent.open(item);
   }
 
 

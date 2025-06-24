@@ -34,13 +34,13 @@
                   Esta página foi criada para fornecer insights sobre o
                   processamento de dados de IA.
                 </p>
+                <h3>Loja: <span class="small-text" >{{executionData?.store.cnpj}} - {{executionData?.store.name}}</span></h3>
               </div>
             </div>
-            <div class="justify-content-end flex-wrap">
-              <div>
-                <h1>
-                  Execução: <span>{{ executionData?.name }}</span>
-                </h1>
+            <div class="d-flex justify-content-end flex-wrap">
+              <div class="w-100 text-end">
+                <h3 class="card-title">Execução: <span>{{ executionData?.name }}</span></h3>
+                <h3>Promotor: <span class="small-text" >{{executionData?.promoter.username}}</span></h3>
               </div>
               <div class="d-flex justify-content-end">
                 <button
@@ -143,7 +143,7 @@
                               (click)="setFacesAudited(item)"
                               title="Salvar"
                             >
-                              <i class="fa fa-check" aria-hidden="true"></i>
+                              <i class="bi bi-check-lg"></i>
                             </button>
                           </div>
                         </td>
@@ -230,13 +230,23 @@
                         <td>{{ item.price_manhattan | realCurrency }}</td>
                         <td>{{ item.price_promoter | realCurrency }}</td>
                         <td class="text-end">
-                          <button
-                            class="btn btn-sm btn-success ml-1"
-                            (click)="saveDataProduct(item)"
-                            title="Salvar"
-                          >
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                          </button>
+                          <div class="d-flex align-items-center justify-content-end" style="gap: 5px;" >
+                            <button
+                              class="btn btn-sm btn-light ml-1"
+                              (click)="showDetailsProduct(item.product)"
+                              title="Ver detalhes do produto"
+                            >
+                              <i class="bi bi-card-text"></i>
+                            </button>
+
+                            <button
+                              class="btn btn-sm btn-success ml-1"
+                              (click)="saveDataProduct(item)"
+                              title="Salvar"
+                            >
+                              <i class="bi bi-check-lg"></i>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -253,3 +263,7 @@
 <app-ia-processing-show-evidences
   #iaProcessingShowEvidencesModal
 ></app-ia-processing-show-evidences>
+
+<app-ia-processing-show-product-details
+  #iaProcessingShowProductDetailsModal
+></app-ia-processing-show-product-details>

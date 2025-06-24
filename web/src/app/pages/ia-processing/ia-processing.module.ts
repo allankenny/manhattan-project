@@ -12,12 +12,14 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { IAProcessingShowEvidencesComponent } from './ia-processing-show-evidences/ia-processing-show-evidences.component';
 import { NgxCurrencyDirective } from 'ngx-currency';
+import { IAProcessingShowProductDetailsComponent } from './ia-processing-show-product-details/ia-processing-show-product-details.component';
 
 @NgModule({
   declarations: [
     IAprocessingComponent,
     IAprocessingAnalyticComponent,
     IAProcessingShowEvidencesComponent,
+    IAProcessingShowProductDetailsComponent,
   ],
   imports: [
     CommonModule,
