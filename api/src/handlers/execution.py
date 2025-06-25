@@ -1,8 +1,10 @@
+import json
 import aiohttp
 from typing import Annotated, List
 from beanie import WriteRules
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 
+from src.crews.products_analyzer_crew import ProductAnalyzerCrew
 from src.schemas.execution import AuditBrandRequest, AuditProductRequest, ExecutionDetailResponse, ExecutionResponse, ProcessExecutionResponse
 from src.db.models import Execution
 from src.dependencies import get_execution_service, get_industry_service, get_promo_api
@@ -73,23 +75,54 @@ async def process_execution_by_name(
         for execution_product in execution.products
     ]
 
-    if execution.brands and execution.brands[0].brand.category.id == 'b77a471e-1f75-4770-b6ae-ede023cb08f9' and False: # Santher Fraldas
-        result = await process_images(images_base64, brands, products, 'santher_fraldas', 1.5)
-    else:
-        result = await process_images(images_base64, brands, products)
+    # if execution.brands and execution.brands[0].brand.category.id == "b77a471e-1f75-4770-b6ae-ede023cb08f9" and False:  # Santher Fraldas
+    #     result = await process_images(images_base64, brands, products, "santher_fraldas", 1.5)
+    # else:
+    #     result = await process_images(images_base64, brands, products)
 
-    for brand in result["parsed"]["brands"]:
-        for exec_brand in execution.brands:
-            if exec_brand.brand.id == brand["brand_id"]:
-                exec_brand.faces_manhattan = brand["fronts"]
+    crew = ProductAnalyzerCrew(
+        evidences_urls=list(evidence.url for evidence in execution.evidences),
+        brands=list(exec_brand.brand for exec_brand in execution.brands),
+        products=list(exec_product.product for exec_product in execution.products),
+    ).crew()
+    brands = json.dumps(list(dict(brand_id=brand.brand.id, brand_name=brand.brand.name) for brand in execution.brands))
 
-    for product in result["parsed"]["products"]:
-        for exec_product in execution.products:
-            if exec_product.product.id == product["product_id"]:
-                exec_product.faces_manhattan = product["fronts"]
-                exec_product.price_manhattan = product["price"]
+    products = json.dumps(
+        list(
+            dict(
+                product_id=product.product.id,
+                product_name=product.product.name,
+                brand_id=product.product.segment.brand.id,
+                brand_name=product.product.segment.brand.name,
+            )
+            for product in execution.products
+        )
+    )
 
-    await execution.save(link_rule=WriteRules.WRITE)
+    output = crew.kickoff(
+        inputs={
+            "category": "Diapers",
+            "brands": brands,
+            "products": products,
+            "images_urls": "\n".join([f"- {evidence.url}" for evidence in execution.evidences]),
+        }
+    )
+
+    for task_output in output.tasks_output:
+        print(task_output.raw)
+
+    # for brand in result["parsed"]["brands"]:
+    #     for exec_brand in execution.brands:
+    #         if exec_brand.brand.id == brand["brand_id"]:
+    #             exec_brand.faces_manhattan = brand["fronts"]
+
+    # for product in result["parsed"]["products"]:
+    #     for exec_product in execution.products:
+    #         if exec_product.product.id == product["product_id"]:
+    #             exec_product.faces_manhattan = product["fronts"]
+    #             exec_product.price_manhattan = product["price"]
+
+    # await execution.save(link_rule=WriteRules.WRITE)
     return dict(execution_id=execution.id)
 
 

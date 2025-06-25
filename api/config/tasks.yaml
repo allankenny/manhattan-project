@@ -1,0 +1,27 @@
+shelf_analysis_task:
+  description: >
+    Images URLs:
+    {images_urls}
+
+    brands_json: {brands}
+    products_json: {products}
+
+    Conduct a survey of the number of product facings for each brand 
+    present in the shelf images of the {category} category. Use the 
+    product JSON, considering the fields product_id, product_name, 
+    product_description, and brand_id, to relate the number of product 
+    facings to their respective brands. Use the brand_id field from the 
+    product JSON to link with the brand JSON via the identifier field. 
+    When you find products with brands not present in the brand JSON, 
+    quantify those facings as "Outras Marcas" which is included in the 
+    brand JSON.
+  expected_output: >
+    [
+      {
+        "brand_id": "str",
+        "brand_name": "str",
+        "faces": "int"
+      }, 
+      ...
+    ]
+  agent: shelf_analyst
