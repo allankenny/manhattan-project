@@ -113,7 +113,7 @@
   }
 
   .total{
-    font-size: 2.3em;
+    font-size: 2.6em;
     color: #206581;
     font-weight: 900;
   }
@@ -291,4 +291,8 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.color-title-theme{
+  color: #353535 !important;
 }

@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
 const Routing: Routes = [
-  // {
-  //   path: 'dashboard',
-  //   loadChildren: () =>
-  //     import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-  // },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
   // {
   //   path: 'user',
   //   loadChildren: () =>
@@ -19,8 +19,15 @@ const Routing: Routes = [
       ),
   },
   {
+    path: 'audit',
+    loadChildren: () =>
+      import('./audit/audit.module').then(
+        (m) => m.AuditModule
+      ),
+  },
+  {
     path: '',
-    redirectTo: '/ia-processing',
+    redirectTo: '/dashboard',
     pathMatch: 'full',
   },
   {
