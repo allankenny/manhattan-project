@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-lg-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Auditoria</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div>Processando...</div>
+  </div>
+
+  <!-- <form [formGroup]="form" role="form">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="d-flex justify-content-end col-lg-6 gap-3 mb-3">
+              </div>
+            </div>
+            <div class="row collapse show" id="collapseExample">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <app-input-text
+                      identifier="execution"
+                      label="Nome da Execução"
+                      [form]="form"
+                    ></app-input-text>
+                  </div>
+                  <div class="col-xl-4 pt-10">
+                    <button
+                      class="btn btn-sm btn-primary mr-2"
+                      (click)="processIAexecution()"
+                    >
+                      <span class="fa fa-refresh" aria-hidden="true"></span>
+                      Processar execução com IA
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form> -->
+
+  <div class="row mt-30">
+    <div class="col-lg-12">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-8">
+              <h3 class="title-cards">Execuções auditadas com IA</h3>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="row" *ngIf="loadingList">
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="color: #0d3950;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive" *ngIf="!loadingList && executionList.length > 0">
+              <!-- <ng-container *ngIf="content.length > 0"> -->
+              <ng-container >
+                <table class="table table-bordered" role="table">
+                  <thead>
+                    <tr class="header-table">
+                      <th class="text-start" scope="col">Indústria</th>
+                      <th class="text-start" scope="col">Nome da Execução</th>
+                      <th class="text-start" scope="col">Promotor</th> 
+                      <th class="text-start" scope="col">Loja</th>
+                      <th class="text-start" scope="col">Data da Execução</th>
+                      <th class="text-end" scope="col"style="width: 4%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of executionList" >
+                      <td><b>{{ item.industry.name }}</b></td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.promoter.username }}</td>
+                      <td>{{ item.store.cnpj | cnpj }} - {{ item.store.name }}</td>
+                      <td>{{ item.date |date:'dd/MM/yyyy HH:mm' }}</td>
+                      <td class="text-end">
+                        <button
+                          class="btn btn-sm btn-light mr-2"
+                          (click)="showDetails(item)"
+                          aria-label="Detalhes"
+                          title="Ver Detalhes"
+                        >
+                          <span class="fa fa-line-chart"></span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+            </div>
+            <div class="no-data" *ngIf="!loadingList && executionList.length == 0">
+              Nenhum registro encontrado.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
