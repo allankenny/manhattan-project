@@ -73,7 +73,10 @@ async def process_execution_by_name(
         for execution_product in execution.products
     ]
 
-    result = await process_images(images_base64, brands, products)
+    if execution.brands and execution.brands[0].brand.category.id == 'b77a471e-1f75-4770-b6ae-ede023cb08f9' and False: # Santher Fraldas
+        result = await process_images(images_base64, brands, products, 'santher_fraldas', 1.5)
+    else:
+        result = await process_images(images_base64, brands, products)
 
     for brand in result["parsed"]["brands"]:
         for exec_brand in execution.brands:
