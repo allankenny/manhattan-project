@@ -1,4 +1,4 @@
-import aiohttp
+import asyncio
 from typing import Annotated, List
 from beanie import WriteRules
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
@@ -10,7 +10,7 @@ from src.services.execution import ExecutionService
 from src.services.industry import IndustryService
 from src.utils.image import url_image_to_base64
 from src.utils.promo_api import PromoAPI
-from src.utils.llm import get_product_description, process_images
+from src.utils.llm import process_execution
 
 
 router = APIRouter(prefix="/executions")
@@ -73,21 +73,32 @@ async def process_execution_by_name(
         for execution_product in execution.products
     ]
 
-    if execution.brands and execution.brands[0].brand.category.id == 'b77a471e-1f75-4770-b6ae-ede023cb08f9' and False: # Santher Fraldas
-        result = await process_images(images_base64, brands, products, 'santher_fraldas', 1.5)
-    else:
-        result = await process_images(images_base64, brands, products)
+    results = await asyncio.gather(
+        process_execution(model="gemini-2.5-flash", temperature=0.2, brands=brands, products=products, images_base64=images_base64),
+        process_execution(model="gemini-2.5-pro", temperature=0.2, brands=brands, products=products, images_base64=images_base64),
+    )
 
-    for brand in result["parsed"]["brands"]:
+    brands, products = results[0]
+    for brand in brands:
         for exec_brand in execution.brands:
-            if exec_brand.brand.id == brand["brand_id"]:
-                exec_brand.faces_manhattan = brand["fronts"]
-
-    for product in result["parsed"]["products"]:
+            if exec_brand.brand.id == brand["id"]:
+                exec_brand.faces_gemini_2_5_flash = brand["fronts"]
+    for product in products:
         for exec_product in execution.products:
-            if exec_product.product.id == product["product_id"]:
-                exec_product.faces_manhattan = product["fronts"]
-                exec_product.price_manhattan = product["price"]
+            if exec_product.product.id == product["id"]:
+                exec_product.faces_gemini_2_5_flash = product["fronts"]
+                exec_product.price_gemini_2_5_flash = product["price"]
+
+    brands, products = results[1]
+    for brand in brands:
+        for exec_brand in execution.brands:
+            if exec_brand.brand.id == brand["id"]:
+                exec_brand.faces_gemini_2_5_pro = brand["fronts"]
+    for product in products:
+        for exec_product in execution.products:
+            if exec_product.product.id == product["id"]:
+                exec_product.faces_gemini_2_5_pro = product["fronts"]
+                exec_product.price_gemini_2_5_pro = product["price"]
 
     await execution.save(link_rule=WriteRules.WRITE)
     return dict(execution_id=execution.id)

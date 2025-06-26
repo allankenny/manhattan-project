@@ -50,11 +50,13 @@ class Product(Document):
 class ExecutionProduct(Document):
     faces_promoter: int | None
     faces_ir: int | None
-    faces_manhattan: int | None
+    faces_gemini_2_5_flash: int | None
+    faces_gemini_2_5_pro: int | None
     faces_audited: int | None
     price_promoter: float | None
     price_ir: float | None
-    price_manhattan: float | None
+    price_gemini_2_5_flash: float | None
+    price_gemini_2_5_pro: float | None
     price_audited: float | None
     product: Link[Product]
 
@@ -66,7 +68,8 @@ class ExecutionProduct(Document):
 class ExecutionBrand(Document):
     faces_promoter: int | None
     faces_ir: int | None
-    faces_manhattan: int | None
+    faces_gemini_2_5_flash: int | None
+    faces_gemini_2_5_pro: int | None
     faces_audited: int | None
     brand: Link[Brand]
 

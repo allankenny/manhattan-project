@@ -44,7 +44,14 @@ class ExecutionService:
         for exec_brand in execution_api.get("brands", []):
             brand = next(filter(lambda b: b.id == exec_brand.get("id"), brands), None)
             execution_brands.append(
-                ExecutionBrand(brand=brand, faces_promoter=exec_brand["faces"], faces_ir=exec_brand["faces_ir"], faces_manhattan=None, faces_audited=None)
+                ExecutionBrand(
+                    brand=brand,
+                    faces_promoter=exec_brand["faces"],
+                    faces_ir=exec_brand["faces_ir"],
+                    faces_gemini_2_5_flash=None,
+                    faces_gemini_2_5_pro=None,
+                    faces_audited=None,
+                )
             )
 
         for exec_product in execution_api.get("products", []):
@@ -54,11 +61,13 @@ class ExecutionService:
                     product=product,
                     faces_promoter=exec_product["fronts"],
                     faces_ir=exec_product["fronts_ir"],
-                    faces_manhattan=None,
+                    faces_gemini_2_5_flash=None,
+                    faces_gemini_2_5_pro=None,
                     faces_audited=None,
                     price_promoter=exec_product["price"],
                     price_ir=exec_product["price_ir"],
-                    price_manhattan=None,
+                    price_gemini_2_5_flash=None,
+                    price_gemini_2_5_pro=None,
                     price_audited=None,
                 )
             )
