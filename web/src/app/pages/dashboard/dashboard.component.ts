@@ -37,22 +37,23 @@ export class DashboardComponent {
   // data goes here
   public single = [
     {
-      "name": "YTD23",
-      "value": 224
+      "name": "Reprocessados",
+      "value": 50
     },
     {
-      "name": "UM3",
-      "value": 112
+      "name": "Auditados",
+      "value": 30
     }
   ];
+  
   public singlePie = [
     {
-      "name": "Executados",
+      "name": "Auditados",
       "value": 20,
       "label": "20%"
     },
     {
-      "name": "Planejados",
+      "name": "Reprocessados",
       "value": 80,
       "label": "80%"
     },

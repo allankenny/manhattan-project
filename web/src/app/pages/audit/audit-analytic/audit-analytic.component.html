@@ -130,6 +130,7 @@
                       <tr class="header-table">
                         <th class="text-start" scope="col">Marca</th>
                         <th class="text-start" scope="col">Categoria</th>
+                        <th class="text-start" scope="col">QTD. Auditada</th>
                         <th class="text-start" scope="col">QTD. IR</th>
                         <th class="text-start" scope="col">QTD. IA</th>
                         <th class="text-start" scope="col">QTD. Promotor</th>
@@ -139,6 +140,26 @@
                       <tr *ngFor="let item of executionData?.brands">
                         <td>{{ item.brand.name }}</td>
                         <td>{{ item.brand.category.name }}</td>
+                        <td style="width: 20%; max-width: 100px">
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                            style="gap: 5px"
+                          >
+                            <input
+                              type="number"
+                              [(ngModel)]="item.faces_audited"
+                              class="form-control form-control-sm d-inline-block"
+                              style="width: 80%"
+                            />
+                            <button
+                              class="btn btn-sm btn-success ml-1"
+                              (click)="setFacesAudited(item)"
+                              title="Salvar"
+                            >
+                              <i class="bi bi-check-lg"></i>
+                            </button>
+                          </div>
+                        </td>
                         <td>{{ item.faces_ir }}</td>
                         <td>{{ item.faces_manhattan }}</td>
                         <td>{{ item.faces_promoter }}</td>
@@ -175,24 +196,80 @@
                       <tr class="header-table">
                         <th class="text-start" scope="col">ean</th>
                         <th class="text-start" scope="col">Categoria</th>
+                        <th class="text-start" scope="col">QTD. Auditada</th>
                         <th class="text-start" scope="col">QTD. IR</th>
                         <th class="text-start" scope="col">QTD. IA</th>
                         <th class="text-start" scope="col">QTD. Promotor</th>
+                        <th class="text-start" scope="col">Price. Auditada</th>
                         <th class="text-start" scope="col">Price. IR</th>
                         <th class="text-start" scope="col">Price. IA</th>
                         <th class="text-start" scope="col">Price. Promotor</th>
+                        <th class="text-end" scope="col" style="width: 4%"></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of executionData?.products">
                         <td>{{ item.product.ean }}</td>
                         <td>{{ item.product.name }}</td>
+                        <td>
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                            style="gap: 5px"
+                          >
+                            <input
+                              type="number"
+                              [(ngModel)]="item.faces_audited"
+                              class="form-control form-control-sm d-inline-block"
+                            />
+                          </div>
+                        </td>
                         <td>{{ item.faces_ir }}</td>
                         <td>{{ item.faces_manhattan }}</td>
                         <td>{{ item.faces_promoter }}</td>
+                        <td>
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                            style="gap: 5px"
+                          >
+                            <input
+                              type="text"
+                              currencyMask
+                              [options]="{
+                                prefix: 'R$ ',
+                                thousands: '.',
+                                decimal: ',',
+                                allowNegative: false
+                              }"
+                              [(ngModel)]="item.price_audited"
+                              class="form-control form-control-sm"
+                            />
+                          </div>
+                        </td>
                         <td>{{ item.price_ir | realCurrency }}</td>
                         <td>{{ item.price_manhattan | realCurrency }}</td>
                         <td>{{ item.price_promoter | realCurrency }}</td>
+                        <td class="text-end">
+                          <div
+                            class="d-flex align-items-center justify-content-end"
+                            style="gap: 5px"
+                          >
+                            <button
+                              class="btn btn-sm btn-light ml-1"
+                              (click)="showDetailsProduct(item.product)"
+                              title="Ver detalhes do produto"
+                            >
+                              <i class="bi bi-card-text"></i>
+                            </button>
+
+                            <button
+                              class="btn btn-sm btn-success ml-1"
+                              (click)="saveDataProduct(item)"
+                              title="Salvar"
+                            >
+                              <i class="bi bi-check-lg"></i>
+                            </button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -205,10 +282,8 @@
     </div>
   </div>
 </div>
-<app-ia-processing-show-evidences
-  #iaProcessingShowEvidencesModal
-></app-ia-processing-show-evidences>
 
-<app-ia-processing-show-product-details
-  #iaProcessingShowProductDetailsModal
-></app-ia-processing-show-product-details>
+
+<app-audit-show-product-details
+  #auditShowProductDetailsModal
+></app-audit-show-product-details>

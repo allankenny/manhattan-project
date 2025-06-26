@@ -12,16 +12,15 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { ExecutionsService } from "src/app/services/executions.service";
 import type { EChartsOption, BarSeriesOption } from 'echarts';
-import { IAProcessingShowEvidencesComponent } from "../ia-processing-show-evidences/ia-processing-show-evidences.component";
-import { IAProcessingShowProductDetailsComponent } from "../ia-processing-show-product-details/ia-processing-show-product-details.component";
-
+import { AuditShowEvidencesComponent } from "../audit-show-evidences/audit-show-evidences.component";
+import { AuditShowProductDetailsComponent } from "../audit-show-product-details/audit-show-product-details.component";
 
 @Component({
-  selector: "app-ia-processing-analytic",
-  templateUrl: "./ia-processing-analytic.component.html",
-  styleUrls: ["./ia-processing-analytic.component.scss"],
+  selector: "app-audit-analytic",
+  templateUrl: "./audit-analytic.component.html",
+  styleUrls: ["./audit-analytic.component.scss"],
 })
-export class IAprocessingAnalyticComponent
+export class AuditAnalyticComponent
   extends BaseComponent
   implements OnInit
 {
@@ -37,8 +36,7 @@ export class IAprocessingAnalyticComponent
 
   loading: boolean = false;
 
-  @ViewChild(IAProcessingShowEvidencesComponent) private iaProcessingShowEvidencesComponent: IAProcessingShowEvidencesComponent;
-  @ViewChild(IAProcessingShowProductDetailsComponent) private iaProcessingShowProductDetailsComponent: IAProcessingShowProductDetailsComponent;
+  @ViewChild(AuditShowProductDetailsComponent) private auditShowProductDetailsComponent: AuditShowProductDetailsComponent;
 
   showContainerEvidence: boolean = false;
 
@@ -75,9 +73,10 @@ export class IAprocessingAnalyticComponent
 
   buildChart(apiData: any[]): void {
     const categories = apiData.map(item => item.brand.name);
-    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_manhattan'];
+    const seriesNames = ['faces_audited','faces_promoter', 'faces_ir', 'faces_manhattan'];
 
     const colors: Record<string, string> = {
+      faces_audited: '#34CC9C',
       faces_promoter: '#5159AC',
       faces_ir: '#517EAE',
       faces_manhattan: '#23909E'
@@ -139,9 +138,10 @@ export class IAprocessingAnalyticComponent
 
   buildChartProducts(apiData: any[]): void {
     const categories = apiData.map(item => item.product.name);
-    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_manhattan'];
+    const seriesNames = ['faces_audited','faces_promoter', 'faces_ir', 'faces_manhattan'];
 
     const colors: Record<string, string> = {
+      faces_audited: '#34CC9C',
       faces_promoter: '#5159AC',
       faces_ir: '#517EAE',
       faces_manhattan: '#23909E'
@@ -208,9 +208,6 @@ export class IAprocessingAnalyticComponent
     this.showContainerEvidence = !this.showContainerEvidence;
   }
 
-  showEvidence(evidenceUrl: string): void {
-    this.iaProcessingShowEvidencesComponent.open(evidenceUrl);
-  }
 
   setFacesAudited(item: any) {
     console.log("Marca encontrada:", item.brand);
@@ -273,7 +270,7 @@ export class IAprocessingAnalyticComponent
       this.alertSwal.error('Nenhum produto selecionado.');
       return;
     }
-    this.iaProcessingShowProductDetailsComponent.open(item);
+    this.auditShowProductDetailsComponent.open(item);
   }
 
   openLightbox(index: number) {

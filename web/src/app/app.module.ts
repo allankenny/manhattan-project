@@ -83,7 +83,7 @@ const customCurrencyConfig: NgxCurrencyConfig = {
     NgSelectModule,
     NgProgressModule,
     NgxChartsModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [
     {
