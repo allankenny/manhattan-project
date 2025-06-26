@@ -7,7 +7,7 @@ from settings import settings
 
 async def process_images(images_base64: list[str], brands: list, products: list, prompt_name: str = "quantifier", temperature: float = 1.0) -> any:
     logger.info(f"Processing {len(images_base64)} evidences using {prompt_name} prompt with temperature in {temperature}")
-    client = genai.Client(api_key=settings.google_ai_studio_api_key)
+    client = genai.Client(api_key=settings.gemini_api_key)
     model = "gemini-2.5-flash"
 
     with open(f"prompts/{prompt_name}.txt", "r") as prompt_file:
@@ -83,7 +83,7 @@ async def process_images(images_base64: list[str], brands: list, products: list,
 
 
 async def get_product_description(image_base64: str) -> str:
-    client = genai.Client(api_key=settings.google_ai_studio_api_key)
+    client = genai.Client(api_key=settings.gemini_api_key)
     model = "gemini-2.5-flash"
 
     with open("prompts/describe_product.txt", "r") as prompt_file:

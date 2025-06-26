@@ -1,27 +1,21 @@
 shelf_analysis_task:
   description: >
-    Images URLs:
-    {images_urls}
+    **Objective:** Count product faces for each brand in the provided shelf images for the **{category}** category.
 
-    brands_json: {brands}
-    products_json: {products}
+    **Input Data:**
+    - **Image URLs:** {images_urls} (List of shelf image URLs.)
+    - **Brands JSON:** {brands} (Includes 'identifier' and 'brand_name'.)
+    - **Products JSON:** {products} (Includes 'product_id', 'product_name', 'product_description', 'brand_id'.)
 
-    Conduct a survey of the number of product facings for each brand 
-    present in the shelf images of the {category} category. Use the 
-    product JSON, considering the fields product_id, product_name, 
-    product_description, and brand_id, to relate the number of product 
-    facings to their respective brands. Use the brand_id field from the 
-    product JSON to link with the brand JSON via the identifier field. 
-    When you find products with brands not present in the brand JSON, 
-    quantify those facings as "Outras Marcas" which is included in the 
-    brand JSON.
+    **Instructions:**
+    1.  **Image Processing:** Identify and count visible product faces in each image.
+    2.  **Product Identification:** Use **'product_description'** from the products JSON to identify products.
+    3.  **Brand Association:** Link identified products to brands using the **'brand_id'** from products JSON, matching it with the 'identifier' in the brands JSON.
+    4.  **Outras Marcas:** If you identify product faces from brands not listed or uncertain, quantify them under **"Outras Marcas"**.
+
+    **Agent Focus:** Ensure accurate face counts, correct brand association, and proper categorization of unknown brands.
+
   expected_output: >
-    [
-      {
-        "brand_id": "str",
-        "brand_name": "str",
-        "faces": "int"
-      }, 
-      ...
-    ]
-  agent: shelf_analyst
+    A JSON array with the total count of faces per brand. Each entry must include `brand_id`, `brand_name` and the number of `faces` found.
+
+  agent: merchandising_promoter

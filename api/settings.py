@@ -2,7 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    google_ai_studio_api_key: str
+    gemini_api_key: str
+    openai_api_key: str
     mongo_db_url: str
     promo_api_url: str
     promo_adm_user: str

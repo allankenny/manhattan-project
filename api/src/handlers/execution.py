@@ -6,7 +6,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, s
 
 from src.crews.products_analyzer_crew import ProductAnalyzerCrew
 from src.schemas.execution import AuditBrandRequest, AuditProductRequest, ExecutionDetailResponse, ExecutionResponse, ProcessExecutionResponse
-from src.db.models import Execution
+from src.db.models import Execution, ExecutionBrand, ExecutionEvidence, ExecutionProduct
 from src.dependencies import get_execution_service, get_industry_service, get_promo_api
 from src.services.execution import ExecutionService
 from src.services.industry import IndustryService
@@ -46,18 +46,22 @@ async def sync_by_name(
     return {"synchronized": True}
 
 
-@router.post("/process/by-name/{execution_name}", response_model=ProcessExecutionResponse)
+@router.post("/process/by-name/{execution_name}")
 async def process_execution_by_name(
     execution_name: str,
-    background_tasks: BackgroundTasks,
     execution_service: Annotated[ExecutionService, Depends(get_execution_service)],
 ):
-    if execution := await Execution.find(Execution.name == execution_name).first_or_none():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Execution already processed")
+    if execution := await Execution.find(Execution.name == execution_name, fetch_links=True).first_or_none():
+        await ExecutionBrand.find_many({"_id": {"$in": [eb.id for eb in execution.brands]}}).delete_many()
+        await ExecutionProduct.find_many({"_id": {"$in": [ep.id for ep in execution.products]}}).delete_many()
+        await ExecutionEvidence.find_many({"_id": {"$in": [ee.id for ee in execution.evidences]}}).delete_many()
+        await execution.delete()
 
     execution = await execution_service.create_execution_from_name(execution_name)
 
     await execution.fetch_all_links()
+    return ProductAnalyzerCrew().process_execution(execution)
+
     images_base64 = list()
 
     for evidence in execution.evidences:
@@ -75,54 +79,23 @@ async def process_execution_by_name(
         for execution_product in execution.products
     ]
 
-    # if execution.brands and execution.brands[0].brand.category.id == "b77a471e-1f75-4770-b6ae-ede023cb08f9" and False:  # Santher Fraldas
-    #     result = await process_images(images_base64, brands, products, "santher_fraldas", 1.5)
-    # else:
-    #     result = await process_images(images_base64, brands, products)
+    if execution.brands and execution.brands[0].brand.category.id == "b77a471e-1f75-4770-b6ae-ede023cb08f9" and False:  # Santher Fraldas
+        result = await process_images(images_base64, brands, products, "santher_fraldas", 1.5)
+    else:
+        result = await process_images(images_base64, brands, products)
 
-    crew = ProductAnalyzerCrew(
-        evidences_urls=list(evidence.url for evidence in execution.evidences),
-        brands=list(exec_brand.brand for exec_brand in execution.brands),
-        products=list(exec_product.product for exec_product in execution.products),
-    ).crew()
-    brands = json.dumps(list(dict(brand_id=brand.brand.id, brand_name=brand.brand.name) for brand in execution.brands))
+    for brand in result["parsed"]["brands"]:
+        for exec_brand in execution.brands:
+            if exec_brand.brand.id == brand["brand_id"]:
+                exec_brand.faces_manhattan = brand["fronts"]
 
-    products = json.dumps(
-        list(
-            dict(
-                product_id=product.product.id,
-                product_name=product.product.name,
-                brand_id=product.product.segment.brand.id,
-                brand_name=product.product.segment.brand.name,
-            )
-            for product in execution.products
-        )
-    )
+    for product in result["parsed"]["products"]:
+        for exec_product in execution.products:
+            if exec_product.product.id == product["product_id"]:
+                exec_product.faces_manhattan = product["fronts"]
+                exec_product.price_manhattan = product["price"]
 
-    output = crew.kickoff(
-        inputs={
-            "category": "Diapers",
-            "brands": brands,
-            "products": products,
-            "images_urls": "\n".join([f"- {evidence.url}" for evidence in execution.evidences]),
-        }
-    )
-
-    for task_output in output.tasks_output:
-        print(task_output.raw)
-
-    # for brand in result["parsed"]["brands"]:
-    #     for exec_brand in execution.brands:
-    #         if exec_brand.brand.id == brand["brand_id"]:
-    #             exec_brand.faces_manhattan = brand["fronts"]
-
-    # for product in result["parsed"]["products"]:
-    #     for exec_product in execution.products:
-    #         if exec_product.product.id == product["product_id"]:
-    #             exec_product.faces_manhattan = product["fronts"]
-    #             exec_product.price_manhattan = product["price"]
-
-    # await execution.save(link_rule=WriteRules.WRITE)
+    await execution.save(link_rule=WriteRules.WRITE)
     return dict(execution_id=execution.id)
 
 
