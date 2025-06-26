@@ -1,0 +1,13 @@
+Com base nos produtos e imagens a seguir, quais são os preços de cada produto?
+ 
+```json
+result = {
+  "products": [
+    {
+      "product_id": "string",
+      "product_name": "string",
+      "price": int  # 0.0 se não encontrado
+    }
+  ]
+}
+```

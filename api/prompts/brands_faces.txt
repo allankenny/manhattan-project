@@ -1,0 +1,13 @@
+Com base nas marcas e imagens a seguir, quantas frentes por marca temos?
+ 
+```json
+result = {
+  "brands": [
+    {
+      "brand_id": "string",
+      "brand_name": "string",
+      "fronts": int
+    }
+  ]
+}
+```
