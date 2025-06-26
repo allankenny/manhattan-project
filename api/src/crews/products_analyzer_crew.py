@@ -5,6 +5,7 @@ from crewai.tools.agent_tools.add_image_tool import AddImageTool
 from crewai.project import CrewBase, agent, task, crew
 from pydantic import BaseModel
 
+from settings import settings
 from src.db.models import Execution, ExecutionBrand, ExecutionProduct
 
 
@@ -16,10 +17,10 @@ class ProductAnalyzerCrew:
 
     @agent
     def merchandising_promoter(self) -> Agent:
-        llm = LLM(model="gemini/gemini-2.5-flash", temperature=0.3)
+        llm = LLM(model="gemini/gemini-2.5-pro", temperature=0.3, api_key=settings.gemini_api_key)
         # llm = LLM(
         #     model="openai/gpt-4.1-mini",
-        #     temperature=0.8,
+        #     temperature=0.2,
         #     # max_tokens=150,
         #     # top_p=0.9,
         #     # frequency_penalty=0.1,
