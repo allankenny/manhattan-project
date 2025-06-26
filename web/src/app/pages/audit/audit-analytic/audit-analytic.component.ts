@@ -14,8 +14,6 @@ import { ExecutionsService } from "src/app/services/executions.service";
 import type { EChartsOption, BarSeriesOption } from 'echarts';
 import { AuditShowEvidencesComponent } from "../audit-show-evidences/audit-show-evidences.component";
 import { AuditShowProductDetailsComponent } from "../audit-show-product-details/audit-show-product-details.component";
-// import { IAProcessingShowEvidencesComponent } from "../ia-processing-show-evidences/ia-processing-show-evidences.component";
-// import { IAProcessingShowProductDetailsComponent } from "../ia-processing-show-product-details/ia-processing-show-product-details.component";
 
 @Component({
   selector: "app-audit-analytic",
@@ -33,9 +31,11 @@ export class AuditAnalyticComponent
   defaultValues: any = {};
   valorTeste = 0;
 
+  isLightboxOpen = false;
+  currentIndex = 0;
+
   loading: boolean = false;
 
-  @ViewChild(AuditShowEvidencesComponent) private auditShowEvidencesComponent: AuditShowEvidencesComponent;
   @ViewChild(AuditShowProductDetailsComponent) private auditShowProductDetailsComponent: AuditShowProductDetailsComponent;
 
   showContainerEvidence: boolean = false;
@@ -208,9 +208,6 @@ export class AuditAnalyticComponent
     this.showContainerEvidence = !this.showContainerEvidence;
   }
 
-  showEvidence(evidenceUrl: string): void {
-    this.auditShowEvidencesComponent.open(evidenceUrl);
-  }
 
   setFacesAudited(item: any) {
     console.log("Marca encontrada:", item.brand);
@@ -276,6 +273,24 @@ export class AuditAnalyticComponent
     this.auditShowProductDetailsComponent.open(item);
   }
 
+  openLightbox(index: number) {
+    this.currentIndex = index;
+    this.isLightboxOpen = true;
+  }
 
+  closeLightbox() {
+    this.isLightboxOpen = false;
+  }
+
+  nextImage(event: Event) {
+    event.stopPropagation();
+    this.currentIndex = (this.currentIndex + 1) % this.executionData?.evidences.length;
+  }
+
+  prevImage(event: Event) {
+    event.stopPropagation();
+    this.currentIndex =
+      (this.currentIndex - 1 + this.executionData?.evidences.length) % this.executionData?.evidences.length;
+  }
 
 }

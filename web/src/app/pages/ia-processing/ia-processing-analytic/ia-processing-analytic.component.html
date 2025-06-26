@@ -34,13 +34,26 @@
                   Esta página foi criada para fornecer insights sobre o
                   processamento de dados de IA.
                 </p>
-                <h3 class="color-title-theme">Loja: <span class="small-text" >{{executionData?.store.cnpj}} - {{executionData?.store.name}}</span></h3>
+                <h3 class="color-title-theme">
+                  Loja:
+                  <span class="small-text"
+                    >{{ executionData?.store.cnpj }} -
+                    {{ executionData?.store.name }}</span
+                  >
+                </h3>
               </div>
             </div>
             <div class="d-flex justify-content-end flex-wrap">
               <div class="w-100 text-end">
-                <h3 class="color-title-theme">Execução: <span>{{ executionData?.name }}</span></h3>
-                <h3 class="color-title-theme">Promotor: <span class="small-text" >{{executionData?.promoter.username}}</span></h3>
+                <h3 class="color-title-theme">
+                  Execução: <span>{{ executionData?.name }}</span>
+                </h3>
+                <h3 class="color-title-theme">
+                  Promotor:
+                  <span class="small-text">{{
+                    executionData?.promoter.username
+                  }}</span>
+                </h3>
               </div>
               <div class="d-flex justify-content-end">
                 <button
@@ -67,30 +80,27 @@
           </div>
           <div *ngIf="showContainerEvidence" class="mt-3">
             <hr style="color: #acaaaa" />
-            <div class="d-flex justify-content-end">
-              <button
-                class="btn btn-small btn-back"
-                (click)="showEvidenceList()"
-              >
-                <i class="fa fa-times" aria-hidden="true"></i> Fechar
+            <div class="gallery">
+              <img
+                *ngFor="let img of executionData?.evidences; let i = index"
+                [src]="img.url"
+                (click)="openLightbox(i)"
+                class="thumb"
+              />
+            </div>
+
+            <div class="lightbox" *ngIf="isLightboxOpen">
+              <button class="nav prev" (click)="prevImage($event)">
+                &#10094;
               </button>
-            </div>
-            <div class="mt-5">
-              <h3 class="color-title-theme">Evidências</h3>
-            </div>
-            <div class="d-flex w-100 flex-wrap mt-3" style="gap: 15px">
-              <div
-                *ngFor="let evidence of executionData?.evidences"
-                class="mt-3"
-              >
-                <div class="thumbnail">
-                  <img
-                    src="{{ evidence.url }}"
-                    alt=""
-                    (click)="showEvidence(evidence.url)"
-                  />
-                </div>
-              </div>
+
+              <img [src]="executionData?.evidences[currentIndex].url" class="lightbox-img" />
+
+              <button class="nav next" (click)="nextImage($event)">
+                &#10095;
+              </button>
+
+              <span class="close" (click)="closeLightbox()">&times;</span>
             </div>
           </div>
 

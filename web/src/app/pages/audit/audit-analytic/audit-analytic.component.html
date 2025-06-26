@@ -34,13 +34,26 @@
                   Esta página foi criada para fornecer insights sobre o
                   processamento de dados de IA.
                 </p>
-                <h3 class="color-title-theme">Loja: <span class="small-text" >{{executionData?.store.cnpj}} - {{executionData?.store.name}}</span></h3>
+                <h3 class="color-title-theme">
+                  Loja:
+                  <span class="small-text"
+                    >{{ executionData?.store.cnpj }} -
+                    {{ executionData?.store.name }}</span
+                  >
+                </h3>
               </div>
             </div>
             <div class="d-flex justify-content-end flex-wrap">
               <div class="w-100 text-end">
-                <h3 class="color-title-theme">Execução: <span>{{ executionData?.name }}</span></h3>
-                <h3 class="color-title-theme">Promotor: <span class="small-text" >{{executionData?.promoter.username}}</span></h3>
+                <h3 class="color-title-theme">
+                  Execução: <span>{{ executionData?.name }}</span>
+                </h3>
+                <h3 class="color-title-theme">
+                  Promotor:
+                  <span class="small-text">{{
+                    executionData?.promoter.username
+                  }}</span>
+                </h3>
               </div>
               <div class="d-flex justify-content-end">
                 <button
@@ -67,30 +80,27 @@
           </div>
           <div *ngIf="showContainerEvidence" class="mt-3">
             <hr style="color: #acaaaa" />
-            <div class="d-flex justify-content-end">
-              <button
-                class="btn btn-small btn-back"
-                (click)="showEvidenceList()"
-              >
-                <i class="fa fa-times" aria-hidden="true"></i> Fechar
+            <div class="gallery">
+              <img
+                *ngFor="let img of executionData?.evidences; let i = index"
+                [src]="img.url"
+                (click)="openLightbox(i)"
+                class="thumb"
+              />
+            </div>
+
+            <div class="lightbox" *ngIf="isLightboxOpen">
+              <button class="nav prev" (click)="prevImage($event)">
+                &#10094;
               </button>
-            </div>
-            <div class="mt-5">
-              <h3 class="color-title-theme">Evidências</h3>
-            </div>
-            <div class="d-flex w-100 flex-wrap mt-3" style="gap: 15px">
-              <div
-                *ngFor="let evidence of executionData?.evidences"
-                class="mt-3"
-              >
-                <div class="thumbnail">
-                  <img
-                    src="{{ evidence.url }}"
-                    alt=""
-                    (click)="showEvidence(evidence.url)"
-                  />
-                </div>
-              </div>
+
+              <img [src]="executionData?.evidences[currentIndex].url" class="lightbox-img" />
+
+              <button class="nav next" (click)="nextImage($event)">
+                &#10095;
+              </button>
+
+              <span class="close" (click)="closeLightbox()">&times;</span>
             </div>
           </div>
 
@@ -131,12 +141,15 @@
                         <td>{{ item.brand.name }}</td>
                         <td>{{ item.brand.category.name }}</td>
                         <td style="width: 20%; max-width: 100px">
-                          <div class="d-flex align-items-center justify-content-between" style="gap: 5px;" >
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                            style="gap: 5px"
+                          >
                             <input
                               type="number"
                               [(ngModel)]="item.faces_audited"
                               class="form-control form-control-sm d-inline-block"
-                              style="width: 80%;"
+                              style="width: 80%"
                             />
                             <button
                               class="btn btn-sm btn-success ml-1"
@@ -191,7 +204,7 @@
                         <th class="text-start" scope="col">Price. IR</th>
                         <th class="text-start" scope="col">Price. IA</th>
                         <th class="text-start" scope="col">Price. Promotor</th>
-                        <th class="text-end" scope="col"style="width: 4%"></th>
+                        <th class="text-end" scope="col" style="width: 4%"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -199,7 +212,10 @@
                         <td>{{ item.product.ean }}</td>
                         <td>{{ item.product.name }}</td>
                         <td>
-                          <div class="d-flex align-items-center justify-content-between" style="gap: 5px;" >
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                            style="gap: 5px"
+                          >
                             <input
                               type="number"
                               [(ngModel)]="item.faces_audited"
@@ -211,7 +227,10 @@
                         <td>{{ item.faces_manhattan }}</td>
                         <td>{{ item.faces_promoter }}</td>
                         <td>
-                          <div class="d-flex align-items-center justify-content-between" style="gap: 5px;" >
+                          <div
+                            class="d-flex align-items-center justify-content-between"
+                            style="gap: 5px"
+                          >
                             <input
                               type="text"
                               currencyMask
@@ -230,7 +249,10 @@
                         <td>{{ item.price_manhattan | realCurrency }}</td>
                         <td>{{ item.price_promoter | realCurrency }}</td>
                         <td class="text-end">
-                          <div class="d-flex align-items-center justify-content-end" style="gap: 5px;" >
+                          <div
+                            class="d-flex align-items-center justify-content-end"
+                            style="gap: 5px"
+                          >
                             <button
                               class="btn btn-sm btn-light ml-1"
                               (click)="showDetailsProduct(item.product)"
@@ -260,9 +282,7 @@
     </div>
   </div>
 </div>
-<app-audit-show-evidences
-  #auditShowEvidencesModal
-></app-audit-show-evidences>
+
 
 <app-audit-show-product-details
   #auditShowProductDetailsModal

@@ -15,6 +15,7 @@ import type { EChartsOption, BarSeriesOption } from 'echarts';
 import { IAProcessingShowEvidencesComponent } from "../ia-processing-show-evidences/ia-processing-show-evidences.component";
 import { IAProcessingShowProductDetailsComponent } from "../ia-processing-show-product-details/ia-processing-show-product-details.component";
 
+
 @Component({
   selector: "app-ia-processing-analytic",
   templateUrl: "./ia-processing-analytic.component.html",
@@ -30,6 +31,9 @@ export class IAprocessingAnalyticComponent
   chartOptionProducts: EChartsOption;
   defaultValues: any = {};
   valorTeste = 0;
+
+  isLightboxOpen = false;
+  currentIndex = 0;
 
   loading: boolean = false;
 
@@ -272,6 +276,24 @@ export class IAprocessingAnalyticComponent
     this.iaProcessingShowProductDetailsComponent.open(item);
   }
 
+  openLightbox(index: number) {
+    this.currentIndex = index;
+    this.isLightboxOpen = true;
+  }
 
+  closeLightbox() {
+    this.isLightboxOpen = false;
+  }
+
+  nextImage(event: Event) {
+    event.stopPropagation();
+    this.currentIndex = (this.currentIndex + 1) % this.executionData?.evidences.length;
+  }
+
+  prevImage(event: Event) {
+    event.stopPropagation();
+    this.currentIndex =
+      (this.currentIndex - 1 + this.executionData?.evidences.length) % this.executionData?.evidences.length;
+  }
 
 }
