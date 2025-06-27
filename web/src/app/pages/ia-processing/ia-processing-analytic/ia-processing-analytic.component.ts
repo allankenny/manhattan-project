@@ -75,13 +75,14 @@ export class IAprocessingAnalyticComponent
 
   buildChart(apiData: any[]): void {
     const categories = apiData.map(item => item.brand.name);
-    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_gemini_2_5_flash', 'faces_gemini_2_5_pro'];
+    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_gemini_2_5_flash', 'faces_gemini_2_5_pro', 'faces_audited'];
 
     const colors: Record<string, string> = {
       faces_promoter: '#5159AC',
       faces_ir: '#517EAE',
       faces_gemini_2_5_flash: '#23909E',
-      faces_gemini_2_5_pro: '#F2A900'
+      faces_gemini_2_5_pro: '#F2A900',
+      faces_audited: '#FF5733'
     };
 
     const labelOption: BarSeriesOption['label'] = {

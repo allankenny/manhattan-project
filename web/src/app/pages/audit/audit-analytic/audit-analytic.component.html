@@ -109,14 +109,14 @@
             <h3 class="color-title-theme">Comparativo por marca</h3>
           </div>
 
-          <div class="mt-20 d-flex">
+          <!-- <div class="mt-20 d-flex">
             <div
               echarts
               [options]="chartOption"
               class="echart"
               style="height: 350px; width: 100%"
             ></div>
-          </div>
+          </div> -->
 
           <div>
             <div class="row mt-10 px-10">
@@ -131,9 +131,6 @@
                         <th class="text-start" scope="col">Marca</th>
                         <th class="text-start" scope="col">Categoria</th>
                         <th class="text-start" scope="col">QTD. Auditada</th>
-                        <th class="text-start" scope="col">QTD. IR</th>
-                        <th class="text-start" scope="col">QTD. IA</th>
-                        <th class="text-start" scope="col">QTD. Promotor</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -160,9 +157,6 @@
                             </button>
                           </div>
                         </td>
-                        <td>{{ item.faces_ir }}</td>
-                        <td>{{ item.faces_manhattan }}</td>
-                        <td>{{ item.faces_promoter }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -175,14 +169,14 @@
           <div class="mt-10">
             <h3 class="color-title-theme">Comparativo por produto</h3>
           </div>
-          <div class="mt-20 d-flex">
+          <!-- <div class="mt-20 d-flex">
             <div
               echarts
               [options]="chartOptionProducts"
               class="echart"
               style="height: 350px; width: 100%"
             ></div>
-          </div>
+          </div> -->
 
           <div>
             <div class="row mt-10 px-10">
@@ -197,13 +191,7 @@
                         <th class="text-start" scope="col">ean</th>
                         <th class="text-start" scope="col">Categoria</th>
                         <th class="text-start" scope="col">QTD. Auditada</th>
-                        <th class="text-start" scope="col">QTD. IR</th>
-                        <th class="text-start" scope="col">QTD. IA</th>
-                        <th class="text-start" scope="col">QTD. Promotor</th>
                         <th class="text-start" scope="col">Price. Auditada</th>
-                        <th class="text-start" scope="col">Price. IR</th>
-                        <th class="text-start" scope="col">Price. IA</th>
-                        <th class="text-start" scope="col">Price. Promotor</th>
                         <th class="text-end" scope="col" style="width: 4%"></th>
                       </tr>
                     </thead>
@@ -223,9 +211,6 @@
                             />
                           </div>
                         </td>
-                        <td>{{ item.faces_ir }}</td>
-                        <td>{{ item.faces_manhattan }}</td>
-                        <td>{{ item.faces_promoter }}</td>
                         <td>
                           <div
                             class="d-flex align-items-center justify-content-between"
@@ -245,9 +230,6 @@
                             />
                           </div>
                         </td>
-                        <td>{{ item.price_ir | realCurrency }}</td>
-                        <td>{{ item.price_manhattan | realCurrency }}</td>
-                        <td>{{ item.price_promoter | realCurrency }}</td>
                         <td class="text-end">
                           <div
                             class="d-flex align-items-center justify-content-end"
