@@ -46,8 +46,9 @@
             <div class="d-flex justify-content-end flex-wrap">
               <div class="w-100 text-end">
                 <h3 class="color-title-theme">
-                  Execução: <span>{{ executionData?.name }}</span>
+                  Execução: <span class="text-muted">{{ executionData?.name }}</span>
                 </h3>
+                <h6>Data: <span class="text-muted">{{ executionData?.date }}</span></h6>
                 <h3 class="color-title-theme">
                   Promotor:
                   <span class="small-text">{{
@@ -145,7 +146,7 @@
                         <th class="text-start" scope="col">QTD. IR</th>
                         <th class="text-start" scope="col">QTD. Gemini 2.5 Flash</th>
                         <th class="text-start" scope="col">QTD. Gemini 2.5 Pro</th>
-                        <th class="text-start" scope="col">Auditada</th>
+                        <th class="text-start" scope="col">QTD. Auditada</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -194,10 +195,13 @@
                         <th class="text-start" scope="col">QTD. IR</th>
                         <th class="text-start" scope="col">QTD. Gemini flash</th>
                         <th class="text-start" scope="col">QTD. Gemini pro</th>
-                        <th class="text-start" scope="col">Price. Promotor</th>
-                        <th class="text-start" scope="col">Price. IR</th>
-                        <th class="text-start" scope="col">Price. Gemini flash</th>
-                        <th class="text-start" scope="col">Price. Gemini pro</th>
+                        <th class="text-start" scope="col">QTD. Auditada</th>
+                        <th class="text-start" scope="col">Preço. Promotor</th>
+                        <th class="text-start" scope="col">Preço. IR</th>
+                        <th class="text-start" scope="col">Preço. Gemini flash</th>
+                        <th class="text-start" scope="col">Preço. Gemini pro</th>
+                        <th class="text-start" scope="col">Preço. Auditado</th>
+                        <th class="text-end" scope="col" style="width: 4%"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -208,10 +212,27 @@
                         <td>{{ item.faces_ir }}</td>
                         <td>{{ item.faces_gemini_2_5_flash }}</td>
                         <td>{{ item.faces_gemini_2_5_pro }}</td>
+                        <td>{{ item.faces_audited }}</td>
                         <td>{{ item.price_promoter | realCurrency }}</td>
                         <td>{{ item.price_ir | realCurrency }}</td>
                         <td>{{ item.price_gemini_2_5_flash | realCurrency }}</td>
                         <td>{{ item.price_gemini_2_5_pro | realCurrency }}</td>
+                        <td>{{ item.price_audited | realCurrency }}</td>
+                        <td class="text-end">
+                          <div
+                            class="d-flex align-items-center justify-content-end"
+                            style="gap: 5px"
+                          >
+                            <button
+                              class="btn btn-sm btn-light ml-1"
+                              (click)="showDetailsProduct(item.product)"
+                              title="Ver detalhes do produto"
+                              *ngIf="item.product?.description"
+                            >
+                              <i class="bi bi-card-text"></i>
+                            </button>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
