@@ -37,7 +37,7 @@ export class AuditAnalyticComponent
 
   @ViewChild(AuditShowProductDetailsComponent) private auditShowProductDetailsComponent: AuditShowProductDetailsComponent;
 
-  showContainerEvidence: boolean = false;
+  showContainerEvidence: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,

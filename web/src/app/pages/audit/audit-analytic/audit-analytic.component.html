@@ -239,6 +239,7 @@
                               class="btn btn-sm btn-light ml-1"
                               (click)="showDetailsProduct(item.product)"
                               title="Ver detalhes do produto"
+                              *ngIf="item.product?.description"
                             >
                               <i class="bi bi-card-text"></i>
                             </button>
