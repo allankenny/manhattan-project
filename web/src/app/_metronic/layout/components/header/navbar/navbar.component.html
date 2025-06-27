@@ -75,17 +75,12 @@
 <!--end::Theme mode-->
 
 <!--begin::User menu-->
-<div class="app-navbar-item" [ngClass]="itemClass" *ngIf="user$ | async as _user">
-
-
-  <!--begin::Menu wrapper-->
+<!-- <div class="app-navbar-item" [ngClass]="itemClass" *ngIf="user$ | async as _user">
   <div class="cursor-pointer symbol" [ngClass]="userAvatarClass" data-kt-menu-trigger="{default: 'click'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-    <!-- <img  [src]="_user.avatar"  /> -->
     <app-keenicon name="profile-user" class="fs-2"></app-keenicon>
   </div>
   <app-user-inner data-kt-menu='true'></app-user-inner>
-  <!--end::Menu wrapper-->
-</div>
+</div> -->
 <!--end::User menu-->
 
 <!--begin::Header menu toggle-->

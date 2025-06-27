@@ -75,12 +75,13 @@ export class IAprocessingAnalyticComponent
 
   buildChart(apiData: any[]): void {
     const categories = apiData.map(item => item.brand.name);
-    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_manhattan'];
+    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_gemini_2_5_flash', 'faces_gemini_2_5_pro'];
 
     const colors: Record<string, string> = {
       faces_promoter: '#5159AC',
       faces_ir: '#517EAE',
-      faces_manhattan: '#23909E'
+      faces_gemini_2_5_flash: '#23909E',
+      faces_gemini_2_5_pro: '#F2A900'
     };
 
     const labelOption: BarSeriesOption['label'] = {
@@ -139,12 +140,13 @@ export class IAprocessingAnalyticComponent
 
   buildChartProducts(apiData: any[]): void {
     const categories = apiData.map(item => item.product.name);
-    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_manhattan'];
+    const seriesNames = ['faces_promoter', 'faces_ir', 'faces_gemini_2_5_flash', 'faces_gemini_2_5_pro'];
 
     const colors: Record<string, string> = {
       faces_promoter: '#5159AC',
       faces_ir: '#517EAE',
-      faces_manhattan: '#23909E'
+      faces_gemini_2_5_flash: '#23909E',
+      faces_gemini_2_5_pro: '#F2A900'
     };
 
     const labelOption: BarSeriesOption['label'] = {
@@ -295,5 +297,6 @@ export class IAprocessingAnalyticComponent
     this.currentIndex =
       (this.currentIndex - 1 + this.executionData?.evidences.length) % this.executionData?.evidences.length;
   }
+
 
 }

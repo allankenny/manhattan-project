@@ -12,7 +12,6 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { ExecutionsService } from "src/app/services/executions.service";
 import type { EChartsOption, BarSeriesOption } from 'echarts';
-import { AuditShowEvidencesComponent } from "../audit-show-evidences/audit-show-evidences.component";
 import { AuditShowProductDetailsComponent } from "../audit-show-product-details/audit-show-product-details.component";
 
 @Component({

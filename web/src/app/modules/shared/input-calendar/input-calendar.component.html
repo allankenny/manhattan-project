@@ -1,12 +1,17 @@
 <div class="form-group">
-	<label [ngClass]="{ 'required': isRequired() }" [for]="identifier">{{label}}:</label>
+	<label [ngClass]="{ 'required': isRequired() }" [for]="identifier" style="margin-bottom:8px">{{label}}:</label>
 	<div class="input-group">
-		<input autofocus class="form-control" [id]="identifier" [name]="identifier" placeholder="{{placeholder}}"
+		<!-- <input autofocus class="form-control" [id]="identifier" [name]="identifier" placeholder="{{placeholder}}"
 			type="text" (blur)="onBlur()" [attr.aria-invalid]="fieldIsInvalid()"
 			[attr.aria-label]="getAccessibleLabel()" [attr.aria-required]="isRequired()"
 			[formControl]="form.controls[identifier]" name="d1" #d1="ngbDatepicker" ngbDatepicker
 			[ngClass]="{ 'is-invalid': fieldIsInvalid() }" [readonly]="readonly"
-      [minDate]="minPickerDate" >
+      [minDate]="minPickerDate" > -->
+	  <input autofocus class="form-control" [id]="identifier" [name]="identifier" placeholder="{{placeholder}}"
+			type="text" (blur)="onBlur()" [attr.aria-invalid]="fieldIsInvalid()"
+			[attr.aria-label]="getAccessibleLabel()" [attr.aria-required]="isRequired()"
+			[formControl]="form.controls[identifier]" name="d1" #d1="ngbDatepicker" ngbDatepicker
+			[ngClass]="{ 'is-invalid': fieldIsInvalid() }" [readonly]="readonly">
 		<button class="btn bi bi-calendar3 btn-calendar" (click)="d1.toggle()" type="button"></button>
 		<div class="invalid-feedback" *ngIf="fieldIsInvalid()">{{getErrorMessage()}}</div>
 	</div>

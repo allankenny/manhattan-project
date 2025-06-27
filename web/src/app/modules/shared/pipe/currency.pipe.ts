@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class RealCurrencyPipe implements PipeTransform {
   transform(value: number | string, showSymbol: boolean = true): string {
-    if (value === null || value === undefined) return '';
+    if (value === null || value === undefined) return 'R$ 0,00';
 
     const formattedValue = Number(value).toLocaleString('pt-BR', {
       style: 'currency',
