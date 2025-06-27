@@ -6,7 +6,7 @@ result = {
     {
       "product_id": "string",
       "product_name": "string",
-      "price": int  # 0.0 se não encontrado
+      "price": float  # 0.0 se não encontrado
     }
   ]
 }
