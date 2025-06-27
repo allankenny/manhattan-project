@@ -74,16 +74,23 @@ class ExecutionService:
 
         if execution_evidences:
             execution_evidences_insert_many_result = await ExecutionEvidence.insert_many(execution_evidences)
+            execution_evidences = await ExecutionEvidence.find(
+                {"_id": {"$in": execution_evidences_insert_many_result.inserted_ids}}, fetch_links=True
+            ).to_list()
+        else:
+            execution_evidences = list()
 
         if execution_brands:
             executions_brand_insert_many_result = await ExecutionBrand.insert_many(execution_brands)
+            execution_brands = await ExecutionBrand.find({"_id": {"$in": executions_brand_insert_many_result.inserted_ids}}, fetch_links=True).to_list()
+        else:
+            execution_brands = list()
 
         if execution_products:
             execution_products_insert_many_result = await ExecutionProduct.insert_many(execution_products)
-
-        execution_evidences = await ExecutionEvidence.find({"_id": {"$in": execution_evidences_insert_many_result.inserted_ids}}, fetch_links=True).to_list()
-        execution_brands = await ExecutionBrand.find({"_id": {"$in": executions_brand_insert_many_result.inserted_ids}}, fetch_links=True).to_list()
-        execution_products = await ExecutionProduct.find({"_id": {"$in": execution_products_insert_many_result.inserted_ids}}, fetch_links=True).to_list()
+            execution_products = await ExecutionProduct.find({"_id": {"$in": execution_products_insert_many_result.inserted_ids}}, fetch_links=True).to_list()
+        else:
+            execution_products = list()
 
         execution = await Execution(
             id=execution_api.get("id"),
