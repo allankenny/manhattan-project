@@ -124,6 +124,8 @@ class Execution(Document):
     brands: List[Link[ExecutionBrand]]
     products: List[Link[ExecutionProduct]]
     evidences: List[Link[ExecutionEvidence]]
+    duration_in_seconds_gemini_2_5_flash: int | None = None
+    duration_in_seconds_gemini_2_5_pro: int | None = None
 
     class Settings:
         name = "executions"

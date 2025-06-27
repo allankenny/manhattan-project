@@ -52,6 +52,8 @@ class ExecutionDetailResponse(ExecutionResponse):
     brands: List[ExecutionBrandDetail]
     products: List[ExecutionProductDetail]
     evidences: List[EvidenceBase]
+    duration_in_seconds_gemini_2_5_flash: int | None
+    duration_in_seconds_gemini_2_5_pro: int | None
 
     class Config:
         populate_by_name = True
