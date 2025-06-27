@@ -48,8 +48,8 @@ async def get_prompt_by_name(name: str) -> str:
     return prompt
 
 
-async def process_products_faces(model: str, temperature: float, products: list, images_base64: List[str]):
-    logger.debug(f"Processing products faces with {model} model using temperature {temperature}")
+async def process_products_faces(model: str, temperature: float, products: list, images_base64: List[str], thinking: bool):
+    logger.debug(f"Processing products faces with {model} model using temperature {temperature} and thinking={thinking}")
     contents = [
         types.Content(
             role="user",
@@ -63,7 +63,7 @@ async def process_products_faces(model: str, temperature: float, products: list,
     generate_content_config = types.GenerateContentConfig(
         temperature=temperature,
         response_mime_type="application/json",
-        thinking_config=types.ThinkingConfig(thinking_budget=0) if model == "gemini-2.5-flash" else None,
+        thinking_config=None if thinking else types.ThinkingConfig(thinking_budget=0),
         response_schema=genai.types.Schema(
             type=genai.types.Type.OBJECT,
             required=["products"],
@@ -89,8 +89,8 @@ async def process_products_faces(model: str, temperature: float, products: list,
     return generated_content.to_json_dict()
 
 
-async def process_products_price(model: str, temperature: float, products: list, images_base64: List[str]):
-    logger.debug(f"Processing products prices with {model} model using temperature {temperature}")
+async def process_products_price(model: str, temperature: float, products: list, images_base64: List[str], thinking: bool):
+    logger.debug(f"Processing products prices with {model} model using temperature {temperature} and thinking={thinking}")
     contents = [
         types.Content(
             role="user",
@@ -104,7 +104,7 @@ async def process_products_price(model: str, temperature: float, products: list,
     generate_content_config = types.GenerateContentConfig(
         temperature=temperature,
         response_mime_type="application/json",
-        thinking_config=types.ThinkingConfig(thinking_budget=0) if model == "gemini-2.5-flash" else None,
+        thinking_config=None if thinking else types.ThinkingConfig(thinking_budget=0),
         response_schema=genai.types.Schema(
             type=genai.types.Type.OBJECT,
             required=["products"],
@@ -130,8 +130,8 @@ async def process_products_price(model: str, temperature: float, products: list,
     return generated_content.to_json_dict()
 
 
-async def process_brands_faces(model: str, temperature: float, brands: list, images_base64: List[str]):
-    logger.debug(f"Processing brands faces with {model} model using temperature {temperature}")
+async def process_brands_faces(model: str, temperature: float, brands: list, images_base64: List[str], thinking: bool):
+    logger.debug(f"Processing brands faces with {model} model using temperature {temperature} and thinking={thinking}")
     contents = [
         types.Content(
             role="user",
@@ -145,7 +145,7 @@ async def process_brands_faces(model: str, temperature: float, brands: list, ima
     generate_content_config = types.GenerateContentConfig(
         temperature=temperature,
         response_mime_type="application/json",
-        thinking_config=types.ThinkingConfig(thinking_budget=0) if model == "gemini-2.5-flash" else None,
+        thinking_config=None if thinking else types.ThinkingConfig(thinking_budget=0),
         response_schema=genai.types.Schema(
             type=genai.types.Type.OBJECT,
             required=["brands"],

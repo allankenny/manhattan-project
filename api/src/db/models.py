@@ -50,14 +50,16 @@ class Product(Document):
 class ExecutionProduct(Document):
     faces_promoter: int | None
     faces_ir: int | None
-    faces_gemini_2_5_flash: int | None
-    faces_gemini_2_5_pro: int | None
-    faces_audited: int | None
+    faces_gemini_2_5_flash: int | None = None
+    faces_gemini_2_5_flash_thinking: int | None = None
+    faces_gemini_2_5_pro: int | None = None
+    faces_audited: int | None = None
     price_promoter: float | None
     price_ir: float | None
-    price_gemini_2_5_flash: float | None
-    price_gemini_2_5_pro: float | None
-    price_audited: float | None
+    price_gemini_2_5_flash: float | None = None
+    price_gemini_2_5_flash_thinking: float | None = None
+    price_gemini_2_5_pro: float | None = None
+    price_audited: float | None = None
     product: Link[Product]
 
     class Settings:
@@ -68,9 +70,10 @@ class ExecutionProduct(Document):
 class ExecutionBrand(Document):
     faces_promoter: int | None
     faces_ir: int | None
-    faces_gemini_2_5_flash: int | None
-    faces_gemini_2_5_pro: int | None
-    faces_audited: int | None
+    faces_gemini_2_5_flash: int | None = None
+    faces_gemini_2_5_flash_thinking: int | None = None
+    faces_gemini_2_5_pro: int | None = None
+    faces_audited: int | None = None
     brand: Link[Brand]
 
     class Settings:
@@ -125,6 +128,7 @@ class Execution(Document):
     products: List[Link[ExecutionProduct]]
     evidences: List[Link[ExecutionEvidence]]
     duration_in_seconds_gemini_2_5_flash: int | None = None
+    duration_in_seconds_gemini_2_5_flash_thinking: int | None = None
     duration_in_seconds_gemini_2_5_pro: int | None = None
 
     class Settings:

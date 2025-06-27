@@ -74,8 +74,9 @@ async def process_execution_by_name(
     ]
 
     results = await asyncio.gather(
-        process_execution(model="gemini-2.5-flash", temperature=0.2, brands=brands, products=products, images_base64=images_base64),
-        process_execution(model="gemini-2.5-pro", temperature=0.2, brands=brands, products=products, images_base64=images_base64),
+        process_execution(model="gemini-2.5-flash", temperature=0.2, brands=brands, products=products, images_base64=images_base64, thinking=False),
+        process_execution(model="gemini-2.5-flash", temperature=0.2, brands=brands, products=products, images_base64=images_base64, thinking=True),
+        process_execution(model="gemini-2.5-pro", temperature=0.2, brands=brands, products=products, images_base64=images_base64, thinking=True),
     )
 
     brands, products, duration_in_seconds = results[0]
@@ -83,7 +84,7 @@ async def process_execution_by_name(
     for brand in brands:
         for exec_brand in execution.brands:
             if exec_brand.brand.id == brand["id"]:
-                exec_brand.faces_gemini_2_5_flash = brand.get('fronts')
+                exec_brand.faces_gemini_2_5_flash = brand.get("fronts")
     for product in products:
         for exec_product in execution.products:
             if exec_product.product.id == product["id"]:
@@ -91,11 +92,23 @@ async def process_execution_by_name(
                 exec_product.price_gemini_2_5_flash = product.get("price")
 
     brands, products, duration_in_seconds = results[1]
+    execution.duration_in_seconds_gemini_2_5_flash_thinking = duration_in_seconds
+    for brand in brands:
+        for exec_brand in execution.brands:
+            if exec_brand.brand.id == brand["id"]:
+                exec_brand.faces_gemini_2_5_flash_thinking = brand.get("fronts")
+    for product in products:
+        for exec_product in execution.products:
+            if exec_product.product.id == product["id"]:
+                exec_product.faces_gemini_2_5_flash_thinking = product.get("fronts")
+                exec_product.price_gemini_2_5_flash_thinking = product.get("price")
+
+    brands, products, duration_in_seconds = results[2]
     execution.duration_in_seconds_gemini_2_5_pro = duration_in_seconds
     for brand in brands:
         for exec_brand in execution.brands:
             if exec_brand.brand.id == brand["id"]:
-                exec_brand.faces_gemini_2_5_pro = brand.get('fronts')
+                exec_brand.faces_gemini_2_5_pro = brand.get("fronts")
     for product in products:
         for exec_product in execution.products:
             if exec_product.product.id == product["id"]:
