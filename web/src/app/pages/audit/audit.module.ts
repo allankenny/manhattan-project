@@ -10,7 +10,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { AuditComponent } from './audit.component';
 import { AuditAnalyticComponent } from './audit-analytic/audit-analytic.component';
-import { AuditShowEvidencesComponent } from './audit-show-evidences/audit-show-evidences.component';
+import { AuditShowConfigComponent } from './audit-show-config/audit-show-config.component';
 import { AuditShowProductDetailsComponent } from './audit-show-product-details/audit-show-product-details.component';
 import { AuditRoutingModule } from './audit-routing.module';
 
@@ -18,7 +18,7 @@ import { AuditRoutingModule } from './audit-routing.module';
   declarations: [
     AuditComponent,
     AuditAnalyticComponent,
-    AuditShowEvidencesComponent,
+    AuditShowConfigComponent,
     AuditShowProductDetailsComponent,
   ],
   imports: [
