@@ -20,7 +20,7 @@ export class ExecutionsService extends CrudService<any> {
   }
 
   getList(): Observable<any> {
-    return this.httpClient.get<any>(this.url(), this.deductHeader());
+    return this.httpClient.get<any>(this.url(), this.deductHeaderWithParams({limit:100}));
   }
 
   processExecution(execution: string): Observable<any> {
